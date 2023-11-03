@@ -1,0 +1,15 @@
+
+include "common:core:model"
+include "common:core:service"
+include "common:core:web"
+
+include "common:security"
+include "common:shared"
+include "common:util"
+
+include "service:file-service"
+include "service:mail:mail-service"
+include "service:mail:mail-service-sdk"
+include "service:property:property-service"
+
+

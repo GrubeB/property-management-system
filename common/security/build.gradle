@@ -1,0 +1,36 @@
+plugins {
+    id "org.springframework.boot" version "$ORG_SPRINGBOOTFRAMEWORK_BOOT_VERSION"
+}
+
+group = "pl.app.common.security"
+version = "0.0.4"
+
+dependencies {
+    implementation project(':common:util')
+    implementation project(':common:shared')
+
+    implementation "org.springframework.boot:spring-boot-starter-web"
+
+    implementation 'org.springframework.security:spring-security-web'
+    implementation 'org.springframework.security:spring-security-core'
+    implementation 'org.springframework.security:spring-security-config'
+
+    implementation 'org.springframework.data:spring-data-jpa:3.0.3'
+    implementation 'org.hibernate.orm:hibernate-core:6.1.7.Final'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    compileOnly "org.projectlombok:lombok"
+    annotationProcessor "org.projectlombok:lombok"
+
+    implementation "io.jsonwebtoken:jjwt-api:$JJWT_VERSION"
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:$JJWT_VERSION"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:$JJWT_VERSION"
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

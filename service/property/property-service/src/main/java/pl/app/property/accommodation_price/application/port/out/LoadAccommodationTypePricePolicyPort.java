@@ -1,0 +1,13 @@
+package pl.app.property.accommodation_price.application.port.out;
+
+import pl.app.property.accommodation_price_policy.model.AccommodationTypePriceDayOfTheWeekPolicyEntity;
+import pl.app.property.accommodation_price_policy.model.AccommodationTypePriceNumberOfDaysPolicyEntity;
+
+import java.util.UUID;
+
+
+public interface LoadAccommodationTypePricePolicyPort {
+    AccommodationTypePriceNumberOfDaysPolicyEntity loadAccommodationTypePriceNumberOfDaysPolicyEntityByPropertyId(UUID propertyId);
+
+    AccommodationTypePriceDayOfTheWeekPolicyEntity loadAccommodationTypePriceDayOfTheWeekPolicyEntityByPropertyId(UUID propertyId);
+}

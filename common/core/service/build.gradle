@@ -1,0 +1,36 @@
+plugins {
+    id "org.springframework.boot" version "$ORG_SPRINGBOOTFRAMEWORK_BOOT_VERSION"
+}
+
+group = "pl.app.common.core.model"
+version = "0.0.3"
+
+dependencies {
+    implementation "org.mapstruct:mapstruct:$MAPSTRUCT_VERSION"
+    annotationProcessor "org.mapstruct:mapstruct-processor:$MAPSTRUCT_VERSION"
+
+    implementation "org.springframework.boot:spring-boot-starter-validation"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+
+    compileOnly "org.projectlombok:lombok"
+    annotationProcessor "org.projectlombok:lombok"
+
+    // password validation
+    implementation "org.passay:passay:1.6.3"
+
+    // MAPPER
+    implementation 'org.modelmapper:modelmapper:3.1.1'
+    implementation 'org.modelmapper.extensions:modelmapper-spring:3.1.1'
+
+    // https://mvnrepository.com/artifact/com.google.code.findbugs/annotations
+    implementation 'com.google.code.findbugs:annotations:3.0.1'
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

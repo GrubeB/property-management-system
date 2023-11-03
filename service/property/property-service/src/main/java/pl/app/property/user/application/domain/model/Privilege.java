@@ -1,0 +1,22 @@
+package pl.app.property.user.application.domain.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import java.util.UUID;
+
+@Getter
+@AllArgsConstructor
+public class Privilege {
+    private UUID privilegeId;
+
+    private Permission permission;
+    private UUID domainObjectId;
+
+
+    public Privilege(Permission permission, UUID domainObjectId) {
+        this.privilegeId = UUID.randomUUID();
+        this.permission = permission;
+        this.domainObjectId = domainObjectId;
+    }
+}

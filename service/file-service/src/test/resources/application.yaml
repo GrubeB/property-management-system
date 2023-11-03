@@ -1,0 +1,13 @@
+app:
+  storage:
+    local:
+      path: localDirectory
+
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true

@@ -1,0 +1,63 @@
+plugins {
+    id "org.springframework.boot" version "$ORG_SPRINGBOOTFRAMEWORK_BOOT_VERSION"
+    id "org.flywaydb.flyway" version "9.21.1"
+}
+
+group = "pl.app.property"
+version = "0.1.0"
+
+dependencies {
+    implementation project(':common:util')
+    implementation project(':common:shared')
+    implementation project(':common:security')
+    implementation project(':common:core:model')
+    implementation project(':common:core:service')
+    implementation project(':common:core:web')
+    implementation project(':service:mail:mail-service-sdk')
+
+    // WEB
+    implementation "org.springframework.boot:spring-boot-starter-web"
+
+    // VALIDATION
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // SECURITY
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // JWT
+    implementation "io.jsonwebtoken:jjwt-api:$JJWT_VERSION"
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:$JJWT_VERSION"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:$JJWT_VERSION"
+
+    // JPA
+    runtimeOnly "org.postgresql:postgresql"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-validation"
+    implementation 'org.flywaydb:flyway-core'
+
+    compileOnly "org.projectlombok:lombok"
+    annotationProcessor "org.projectlombok:lombok"
+
+    // TEST
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation "org.testcontainers:postgresql"
+
+    // BLAZER
+//    compileOnly "com.blazebit:blaze-persistence-core-api-jakarta:$BLAZE_PERSISTENCE"
+//    runtimeOnly "com.blazebit:blaze-persistence-core-impl-jakarta:$BLAZE_PERSISTENCE"
+//    runtimeOnly "com.blazebit:blaze-persistence-integration-hibernate-6.2:$BLAZE_PERSISTENCE"
+//    implementation  "com.blazebit:blaze-persistence-integration-entity-view-spring-6.0:$BLAZE_PERSISTENCE"
+//    implementation  "com.blazebit:blaze-persistence-integration-spring-data-3.1:$BLAZE_PERSISTENCE"
+
+    // STRIPE
+    implementation "com.stripe:stripe-java:23.2.0"
+
+    // MAPPER
+    implementation 'org.modelmapper:modelmapper:3.1.1'
+    implementation 'org.modelmapper.extensions:modelmapper-spring:3.1.1'
+
+    // https://mvnrepository.com/artifact/com.google.code.findbugs/annotations
+    implementation 'com.google.code.findbugs:annotations:3.0.1'
+}

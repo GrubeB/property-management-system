@@ -1,0 +1,22 @@
+plugins {
+    id "org.springframework.boot" version "$ORG_SPRINGBOOTFRAMEWORK_BOOT_VERSION"
+}
+
+group = "pl.app.common.core.model"
+version = "0.0.3"
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+
+    compileOnly "org.projectlombok:lombok"
+    annotationProcessor "org.projectlombok:lombok"
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

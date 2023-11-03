@@ -1,0 +1,53 @@
+plugins {
+    id "java"
+    id "io.spring.dependency-management" version "1.1.0"
+}
+
+version = "0.0.1"
+
+ext {
+    ORG_SPRINGBOOTFRAMEWORK_BOOT_VERSION = "3.1.4"
+    JUNIT_JUPITER_API_VERSION = "5.8.1"
+    JUNIT_JUPITER_ENGINE_VERSION = "5.8.1"
+    TESTCONTAINERS_VERSION = "1.18.3"
+    MAPSTRUCT_VERSION = '1.5.3.Final'
+    JJWT_VERSION = '0.11.5'
+    JUNIT_VERSION = '4.13.2'
+    JUPITER_VERSION = '5.8.1'
+    OPENFEIGN_VERSION = '4.0.2'
+    BLAZE_PERSISTENCE = '1.6.9'
+    JJWT_VERSION = '0.11.5'
+}
+
+subprojects {
+    sourceCompatibility = "17"
+
+    group = "pl.app"
+    version = "0.0.1"
+
+    apply plugin: "java"
+    apply plugin: "java-library"
+    apply plugin: "io.spring.dependency-management"
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:3.1.1"
+        }
+    }
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://repo.spring.io/release"
+        }
+        maven {
+            url "https://repository.jboss.org/maven2"
+        }
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+}
+repositories {
+    mavenCentral()
+}

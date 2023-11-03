@@ -1,0 +1,18 @@
+plugins {
+    id "org.springframework.boot" version "$ORG_SPRINGBOOTFRAMEWORK_BOOT_VERSION"
+}
+
+group = "pl.app.common.shared"
+version = "0.0.4"
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

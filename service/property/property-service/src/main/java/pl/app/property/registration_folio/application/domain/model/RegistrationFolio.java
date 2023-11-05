@@ -47,6 +47,10 @@ public class RegistrationFolio {
         RegistrationPartyFolio partyFolio = getPartyFolioByPartyId(partyId);
         return partyFolio.isFolioPaid();
     }
+    public boolean isPartyFolioEmpty(UUID partyId) {
+        RegistrationPartyFolio partyFolio = getPartyFolioByPartyId(partyId);
+        return partyFolio.isEmpty();
+    }
 
     public BigDecimal getBalanceOfFolio() {
         return partyFolios.stream()
@@ -89,4 +93,5 @@ public class RegistrationFolio {
                 .filter(pf -> pf.getPartyFolioId().equals(partyFolioId))
                 .findAny().orElseThrow(() -> RegistrationFolioException.NotFoundPartyFolioException.fromId(partyFolioId));
     }
+
 }

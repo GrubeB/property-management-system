@@ -29,6 +29,7 @@ class RegistrationFolioAdapter implements RegistrationFolioPort {
     private final CalculateAccommodationTypePriceUseCase calculateAccommodationTypePriceUseCase;
     private final RemoveChargeFromPartyFolioUseCase removeChargeFromPartyFolioUseCase;
     private final IsRegistrationFolioPaidUseCase isRegistrationFolioPaidUseCase;
+    private final isPartyFolioEmptyUseCase isPartyFolioEmptyUseCase;
 
     @Override
     public UUID createRegistrationFolio(UUID partyId, CreateRegistrationFromReservationCommand.Folio folio) {
@@ -60,13 +61,7 @@ class RegistrationFolioAdapter implements RegistrationFolioPort {
     }
 
     @Override
-    public void addChargeToFolioForBooking(Registration registration) {
-        registration.getRegistrationBookings()
-                .stream().filter(b -> b.getChargeIds().isEmpty())
-                .forEach(registrationBooking -> addChargeToPartyFolioForBookings(registrationBooking, registration));
-    }
-
-    private void addChargeToPartyFolioForBookings(RegistrationBooking registrationBooking, Registration registration) {
+    public void addChargeToPartyFolioForBookings(Registration registration, RegistrationBooking registrationBooking) {
         BigDecimal bookingPrice = calculateAccommodationTypePriceUseCase.calculateAccommodationTypePrice(new CalculateAccommodationTypePriceCommand(registrationBooking.getAccommodationTypeId(), registrationBooking.getStart(), registrationBooking.getEnd()));
         Map<RegistrationParty, BigDecimal> priceForEachParty = registration.getPriceForEachParty(registrationBooking, bookingPrice);
         priceForEachParty.entrySet().stream()
@@ -78,12 +73,22 @@ class RegistrationFolioAdapter implements RegistrationFolioPort {
     }
 
     @Override
-    public boolean isFolioPaid(UUID registrationFolioId) {
+    public void changeChargeOnPartyFolioForBooking(Registration registration, RegistrationBooking booking) {
+
+    }
+
+    @Override
+    public boolean isRegistrationFolioPaid(UUID registrationFolioId) {
         return isRegistrationFolioPaidUseCase.isRegistrationFolioPaid(new IsRegistrationFolioPaidCommand(registrationFolioId));
     }
 
     @Override
     public void refund(UUID registrationFolioId) {
         // TODO
+    }
+
+    @Override
+    public boolean isPartyFolioEmpty(UUID registrationFolioId, UUID partyId) {
+        return isPartyFolioEmptyUseCase.isPartyFolioEmpty(new IsPartyFolioEmptyCommand(registrationFolioId, partyId));
     }
 }

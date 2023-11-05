@@ -17,6 +17,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 class RegistrationFolioService implements
+        isPartyFolioEmptyUseCase,
         StartRegistrationPaymentProcessUseCase,
         IsPartyFolioPaidUseCase,
         IsRegistrationFolioPaidUseCase,
@@ -86,6 +87,12 @@ class RegistrationFolioService implements
     }
 
     @Override
+    public boolean isPartyFolioEmpty(IsPartyFolioEmptyCommand command) {
+        RegistrationFolio registrationFolio = loadRegistrationFolioPort.loadRegistrationFolio(command.getRegistrationFolioId());
+        return registrationFolio.isPartyFolioEmpty(command.getPartyId());
+    }
+
+    @Override
     public UUID startPaymentProcess(StartRegistrationPaymentProcessCommand command) {
         RegistrationFolio registrationFolio = loadRegistrationFolioPort.loadRegistrationFolioByPartyFolio(command.getPartyFolioId());
         UUID paymentId = paymentPort.createPayment(registrationFolio.getPropertyId(), command.getPartyFolioId(),
@@ -93,4 +100,5 @@ class RegistrationFolioService implements
         registrationMailPort.sendMail(paymentId, command.getGuestId(), registrationFolio.getPropertyId());
         return paymentId;
     }
+
 }

@@ -41,6 +41,7 @@ class RegistrationAdapter implements RegistrationFolioPort {
     private CreateRegistrationFromReservationCommand.Folio getFolio(Reservation reservation) {
         ReservationFolio reservationFolio = fetchReservationFolioUseCase.fetch(new FetchReservationFolioCommand(reservation.getReservationFolioId()));
         var charges = reservationFolio.getCharges().stream().map(ch -> new CreateRegistrationFromReservationCommand.Charge(
+                ch.getChargeId(),
                 map(ch.getType()),
                 ch.getName(),
                 ch.getAmount(),
@@ -48,6 +49,7 @@ class RegistrationAdapter implements RegistrationFolioPort {
                 ch.getDate()
         )).toList();
         var payments = reservationFolio.getPayments().stream().map(p -> new CreateRegistrationFromReservationCommand.Payment(
+                p.getPaymentId(),
                 p.getGuestId(),
                 p.getAmount(),
                 p.getCurrent(),

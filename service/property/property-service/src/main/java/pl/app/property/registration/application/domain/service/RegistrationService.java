@@ -11,12 +11,16 @@ import pl.app.property.registration.application.port.out.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 class RegistrationService implements
+        ChangeGuestPartyUseCase,
+        AddGuestToPartyUseCase,
+        RemoveGuestFromPartyUseCase,
+        AddPartyUseCase,
+        RemovePartyUseCase,
         CancelRegistrationUseCase,
         FinishRegistrationUseCase,
         ConfirmRegistrationUseCase,
@@ -31,7 +35,7 @@ class RegistrationService implements
     @Override
     public UUID createRegistration(CreateRegistrationCommand command) {
         Registration registration = new Registration(command.getPropertyId(), command.getRegistrationSource());
-        command.getParties().forEach(p -> registration.createParty(getGuestFromIds(p.getGuestIds())));
+        command.getParties().forEach(p -> registration.addParty(getGuestFromIds(p.getGuestIds())));
         command.getBookings().forEach(bookingCommand -> registration.addBooking(
                 bookingCommand.getAccommodationTypeId(),
                 bookingCommand.getStartDate(),
@@ -44,9 +48,10 @@ class RegistrationService implements
     }
 
     @Override
+    // TODO id opłaty jest źle przypisywane
     public UUID createRegistration(CreateRegistrationFromReservationCommand command) {
         Registration registration = new Registration(command.getPropertyId(), command.getSource());
-        RegistrationParty party = registration.createParty(getGuestFromIds(command.getParty().getGuestIds()));
+        RegistrationParty party = registration.addParty(getGuestFromIds(command.getParty().getGuestIds()));
         command.getBookings().forEach(bookingCommand -> registration.addBooking(
                 bookingCommand.getAccommodationTypeId(),
                 bookingCommand.getStartDate(),
@@ -89,8 +94,50 @@ class RegistrationService implements
         saveRegistrationPort.saveRegistration(registration);
     }
 
+    @Override
+    public void addParty(AddPartyCommand command) {
+        Registration registration = loadRegistrationPort.loadRegistration(command.getRegistrationId());
+        command.getParties().forEach(p -> registration.addParty(getGuestFromIds(p.getGuestIds())));
+        saveRegistrationPort.saveRegistration(registration);
+    }
+
+    @Override
+    public void removeParty(RemovePartyCommand command) {
+        Registration registration = loadRegistrationPort.loadRegistration(command.getRegistrationId());
+        registration.removeParty(command.getPartyId());
+        if (!registrationFolioPort.isPartyFolioEmpty(registration.getRegistrationFolioId(), command.getPartyId())) {
+            throw new RegistrationException.RegistrationWrongStatedException("party folio must be empty");
+        }
+        saveRegistrationPort.saveRegistration(registration);
+    }
+
+    @Override
+    public void addGuestToParty(AddGuestToPartyCommand command) {
+        Registration registration = loadRegistrationPort.loadRegistration(command.getRegistrationId());
+        command.getGuestIds().forEach(guestId -> registration.addGuestToParty(command.getPartyId(), new RegistrationGuest(guestId)));
+        saveRegistrationPort.saveRegistration(registration);
+    }
+
+    @Override
+    public void removeGuestFromParty(RemoveGuestFromPartyCommand command) {
+        Registration registration = loadRegistrationPort.loadRegistration(command.getRegistrationId());
+        command.getGuestIds().forEach(guestId -> registration.removeGuestFromParty(command.getPartyId(), new RegistrationGuest(guestId)));
+        saveRegistrationPort.saveRegistration(registration);
+    }
+
+    @Override
+    public void changeGuestParty(ChaneGuestPartyCommand command) {
+        Registration registration = loadRegistrationPort.loadRegistration(command.getRegistrationId());
+        RegistrationGuest guest = new RegistrationGuest(command.getGuestId());
+        registration.changeGuestParty(command.getNewPartyId(), guest);
+        registration.getRegistrationBookings().stream()
+                .filter(booking -> booking.containsGuest(guest))
+                .forEach(booking -> registrationFolioPort.changeChargeOnPartyFolioForBooking(registration, booking));
+        saveRegistrationPort.saveRegistration(registration);
+    }
+
     private void verifyIfRegistrationFolioIsPaid(Registration registration) {
-        if (!registrationFolioPort.isFolioPaid(registration.getRegistrationFolioId())) {
+        if (!registrationFolioPort.isRegistrationFolioPaid(registration.getRegistrationFolioId())) {
             throw new RegistrationException.RegistrationWrongStatedException("Registration folio must be paid");
         }
     }
@@ -107,8 +154,8 @@ class RegistrationService implements
     }
 
     private void reserveBooking(Registration registration) {
-        registration.getRegistrationBookings()
-                .stream().filter(b -> Objects.isNull(b.getAccommodationTypeReservationId()))
+        registration.getRegistrationBookings().stream()
+                .filter(booking -> !booking.isReserved())
                 .forEach(booking -> {
                     UUID accommodationTypeReservationId = accommodationTypeReservationPort.reserveAccommodationType(booking);
                     booking.setAccommodationTypeReservationId(accommodationTypeReservationId);
@@ -120,7 +167,9 @@ class RegistrationService implements
     }
 
     private void addChargesToFolio(Registration registration) {
-        registrationFolioPort.addChargeToFolioForBooking(registration);
+        registration.getRegistrationBookings().stream()
+                .filter(booking -> !booking.hasCharges())
+                .forEach(booking -> registrationFolioPort.addChargeToPartyFolioForBookings(registration, booking));
     }
 
     private List<RegistrationGuest> getGuestFromIds(List<UUID> guestIds) {

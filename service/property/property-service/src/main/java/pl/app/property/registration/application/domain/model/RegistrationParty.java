@@ -32,11 +32,15 @@ public class RegistrationParty {
         this.guests.remove(guest);
     }
 
-    public Boolean isGuestInParty(RegistrationGuest guest) {
+    public boolean containsGuest(RegistrationGuest guest) {
         return this.guests.stream().anyMatch(g -> g.getGuestId().equals(guest.getGuestId()));
     }
 
-    public Boolean isAllGuestInParty(List<RegistrationGuest> guests) {
-        return guests.stream().allMatch(this::isGuestInParty);
+    public boolean containsAllGuest(List<RegistrationGuest> guests) {
+        return guests.stream().allMatch(this::containsGuest);
+    }
+
+    public boolean isEmpty() {
+        return guests.isEmpty();
     }
 }

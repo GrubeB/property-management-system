@@ -77,4 +77,7 @@ public class RegistrationPartyFolio {
     }
 
 
+    public boolean isEmpty() {
+        return this.charges.isEmpty() && this.payments.isEmpty();
+    }
 }

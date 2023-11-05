@@ -1,6 +1,7 @@
 package pl.app.property.registration.application.port.out;
 
 import pl.app.property.registration.application.domain.model.Registration;
+import pl.app.property.registration.application.domain.model.RegistrationBooking;
 import pl.app.property.registration.application.port.in.CreateRegistrationFromReservationCommand;
 
 import java.util.List;
@@ -10,10 +11,10 @@ public interface RegistrationFolioPort {
     UUID createNewRegistrationFolio(UUID registrationId, List<UUID> partyIds);
 
     UUID createRegistrationFolio(UUID partyId, CreateRegistrationFromReservationCommand.Folio folio);
-
-    void addChargeToFolioForBooking(Registration registration);
-
-    boolean isFolioPaid(UUID registrationFolioId);
+    void addChargeToPartyFolioForBookings(Registration registration,RegistrationBooking registrationBooking);
+    void changeChargeOnPartyFolioForBooking(Registration registration, RegistrationBooking booking);
+    boolean isRegistrationFolioPaid(UUID registrationFolioId);
 
     void refund(UUID registrationFolioId);
+    boolean isPartyFolioEmpty(UUID registrationFolioId, UUID partyId);
 }

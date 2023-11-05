@@ -35,6 +35,7 @@ public class CreateRegistrationFromReservationCommand implements Serializable {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Payment {
+        private UUID paymentId;
         private UUID guestId;
         private BigDecimal amount;
         private String current;
@@ -45,6 +46,7 @@ public class CreateRegistrationFromReservationCommand implements Serializable {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Charge {
+        private UUID chargeId;
         private RegistrationPartyFolioChargeType type;
         private String name;
         private BigDecimal amount;

@@ -48,7 +48,9 @@ public class RegistrationBooking {
     public void removeGuest(RegistrationGuest guest) {
         this.guests.remove(guest);
     }
-
+    public boolean containsGuest(RegistrationGuest guest) {
+        return this.guests.contains(guest);
+    }
     public void setAccommodationTypeReservationId(UUID accommodationTypeReservationId) {
         this.accommodationTypeReservationId = accommodationTypeReservationId;
     }
@@ -57,7 +59,14 @@ public class RegistrationBooking {
         this.chargeIds.add(chargeId);
     }
 
+    public boolean hasCharges() {
+        return this.chargeIds.isEmpty();
+    }
+
     public void removeAllCharge() {
         this.chargeIds.clear();
+    }
+    public boolean isReserved() {
+        return this.accommodationTypeReservationId != null;
     }
 }

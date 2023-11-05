@@ -43,7 +43,7 @@ public class Registration {
         }
         // all belong to one party
         Optional<RegistrationParty> partyWhereAllGuestsBelong = parties.stream()
-                .filter(registrationParty -> registrationParty.isAllGuestInParty(bookingGuests))
+                .filter(registrationParty -> registrationParty.containsAllGuest(bookingGuests))
                 .findAny();
         if (partyWhereAllGuestsBelong.isPresent()) {
             return Collections.singletonMap(partyWhereAllGuestsBelong.get(), bookingPrice);
@@ -52,8 +52,8 @@ public class Registration {
         BigDecimal pricePerGuest = bookingPrice.divide(BigDecimal.valueOf(bookingGuests.size()), 2, HALF_UP);
         Map<RegistrationParty, BigDecimal> priceForParty = new HashMap<>(2);
         bookingGuests.forEach(bookingGuest -> {
-            RegistrationParty registrationPartyWhereGuestBelong = this.parties.stream().filter(registrationParty -> registrationParty.isGuestInParty(bookingGuest)).findAny()
-                    .orElseThrow(() -> new RegistrationException.BookingWrongStatedException("Booking guest must belong to party"));
+            RegistrationParty registrationPartyWhereGuestBelong = this.parties.stream().filter(registrationParty -> registrationParty.containsGuest(bookingGuest)).findAny()
+                    .orElseThrow(() -> new RegistrationException.BookingWrongStatedException("booking guest must belong to party"));
             BigDecimal currentPrice = priceForParty.computeIfAbsent(registrationPartyWhereGuestBelong, k -> BigDecimal.ZERO);
             priceForParty.put(registrationPartyWhereGuestBelong, currentPrice.add(pricePerGuest));
         });
@@ -61,22 +61,47 @@ public class Registration {
     }
 
     // PARTY
-    public RegistrationParty createParty(List<RegistrationGuest> guests) {
+    public RegistrationParty addParty(List<RegistrationGuest> guests) {
         RegistrationParty registrationParty = new RegistrationParty(guests);
         this.parties.add(registrationParty);
         return registrationParty;
     }
-
+    public void removeParty(UUID partyId) {
+        RegistrationParty registrationParty = getParty(partyId);
+        if(!registrationParty.isEmpty()){
+            throw new RegistrationException.RegistrationWrongStatedException("registration party is not empty");
+        }
+        this.parties.remove(registrationParty);
+    }
     public void addGuestToParty(UUID partyId, RegistrationGuest guest) {
         RegistrationParty registrationParty = getParty(partyId);
+        if(isGuestBelongToAnyParty(guest)){
+            throw new RegistrationException.RegistrationWrongStatedException("guest must belong only to one party");
+        }
         registrationParty.addGuest(guest);
     }
 
-    public void removeGuestToParty(UUID partyId, RegistrationGuest guest) {
+    public void removeGuestFromParty(UUID partyId, RegistrationGuest guest) {
         RegistrationParty registrationParty = getParty(partyId);
+        if(this.registrationBookings.stream().noneMatch(b ->b.containsGuest(guest))){
+            throw new RegistrationException.RegistrationWrongStatedException("guest can not belong to any booking");
+        }
         registrationParty.removeGuest(guest);
     }
 
+    public void changeGuestParty(UUID newPartyId, RegistrationGuest registrationGuest) {
+        if(isGuestBelongToAnyParty(registrationGuest)){
+            throw new RegistrationException.RegistrationWrongStatedException("guest does not belong to any party");
+        }
+        RegistrationParty newRegistrationParty = getParty(newPartyId);
+        RegistrationParty oldRegistrationParty = getPartyByGuest(registrationGuest);
+        oldRegistrationParty.removeGuest(registrationGuest);
+        newRegistrationParty.addGuest(registrationGuest);
+    }
+
+    public boolean isGuestBelongToAnyParty(RegistrationGuest guest){
+        return this.parties.stream().anyMatch(party ->party.containsGuest(guest));
+    }
     // BOOKING
     public RegistrationBooking addBooking(UUID accommodationTypeId, LocalDate startDate, LocalDate endDate, List<RegistrationGuest> guests) {
         RegistrationBooking registrationBooking = new RegistrationBooking(startDate, endDate, accommodationTypeId, guests);
@@ -100,9 +125,14 @@ public class Registration {
         registrationBooking.addGuest(guest);
     }
 
-    public void removeGuestToBooking(UUID bookingId, RegistrationGuest guest) {
+    public void removeGuestFromBooking(UUID bookingId, RegistrationGuest guest) {
         RegistrationBooking registrationBooking = getBooking(bookingId);
         registrationBooking.removeGuest(guest);
+    }
+
+    public boolean isBookingContainsGuest(UUID bookingId, RegistrationGuest guest) {
+        RegistrationBooking registrationBooking = getBooking(bookingId);
+        return registrationBooking.containsGuest(guest);
     }
 
     // STATUS
@@ -139,14 +169,19 @@ public class Registration {
         this.status = RegistrationStatus.FINISHED;
     }
 
-    // GETTERS
+
     private RegistrationParty getParty(UUID partyId) {
-        return parties.stream()
-                .filter(pf -> pf.getPartyId().equals(partyId))
+        return this.parties.stream()
+                .filter(party -> party.getPartyId().equals(partyId))
                 .findAny()
                 .orElseThrow(() -> RegistrationException.NotFoundPartyException.fromId(partyId));
     }
-
+    private RegistrationParty getPartyByGuest(RegistrationGuest registrationGuest) {
+        return this.parties.stream()
+                .filter(party -> party.containsGuest(registrationGuest))
+                .findAny()
+                .orElseThrow(()->new RegistrationException.RegistrationWrongStatedException("guest does not belong to any party"));
+    }
     private RegistrationBooking getBooking(UUID bookingId) {
         return registrationBookings.stream()
                 .filter(pf -> pf.getBookingId().equals(bookingId))

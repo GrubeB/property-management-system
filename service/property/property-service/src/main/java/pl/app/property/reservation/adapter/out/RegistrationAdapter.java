@@ -35,13 +35,14 @@ class RegistrationAdapter implements RegistrationFolioPort {
         var folio = getFolio(reservation);
         var command = new CreateRegistrationFromReservationCommand(reservation.getPropertyId(),
                 map(reservation.getSource()), party, bookings, folio);
-        return createRegistrationFromReservationUseCase.createRegistration(command);
+        return createRegistrationFromReservationUseCase.createRegistrationFromReservation(command);
     }
 
     private CreateRegistrationFromReservationCommand.Folio getFolio(Reservation reservation) {
         ReservationFolio reservationFolio = fetchReservationFolioUseCase.fetch(new FetchReservationFolioCommand(reservation.getReservationFolioId()));
         var charges = reservationFolio.getCharges().stream().map(ch -> new CreateRegistrationFromReservationCommand.Charge(
                 ch.getChargeId(),
+                ch.getObjectId(),
                 map(ch.getType()),
                 ch.getName(),
                 ch.getAmount(),
@@ -64,8 +65,7 @@ class RegistrationAdapter implements RegistrationFolioPort {
                         rb.getStart(),
                         rb.getEnd(),
                         rb.getAccommodationTypeId(),
-                        rb.getAccommodationTypeReservationId(),
-                        rb.getChargeIds()
+                        rb.getAccommodationTypeReservationId()
                 )).toList();
     }
 

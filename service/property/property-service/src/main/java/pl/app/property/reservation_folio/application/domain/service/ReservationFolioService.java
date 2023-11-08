@@ -39,7 +39,7 @@ class ReservationFolioService implements
     @Override
     public UUID addCharge(AddChargeCommand command) {
         ReservationFolio reservationFolio = loadReservationFolioPort.loadRegistrationFolio(command.getReservationFolioId());
-        ReservationFolioCharge newCharge = reservationFolio.addCharge(command.getType(), command.getName(),
+        ReservationFolioCharge newCharge = reservationFolio.addCharge(command.getObjectId(), command.getType(), command.getName(),
                 command.getAmount(), command.getCurrent(), command.getShouldByPaidBeforeRegistration());
         saveReservationFolioPort.saveRegistrationFolio(reservationFolio);
         return newCharge.getChargeId();

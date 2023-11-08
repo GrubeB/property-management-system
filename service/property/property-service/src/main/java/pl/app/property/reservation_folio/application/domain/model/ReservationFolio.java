@@ -28,8 +28,8 @@ public class ReservationFolio {
         this.charges = new ArrayList<>();
     }
 
-    public ReservationFolioCharge addCharge(ReservationFolioChargeType type, String name, BigDecimal amount, String current, Boolean shouldByPaidBeforeRegistration) {
-        ReservationFolioCharge newCharge = new ReservationFolioCharge(type, name, amount, current, shouldByPaidBeforeRegistration);
+    public ReservationFolioCharge addCharge(UUID objectId, ReservationFolioChargeType type, String name, BigDecimal amount, String current, Boolean shouldByPaidBeforeRegistration) {
+        ReservationFolioCharge newCharge = new ReservationFolioCharge(objectId, type, name, amount, current, shouldByPaidBeforeRegistration);
         charges.add(newCharge);
         return newCharge;
     }

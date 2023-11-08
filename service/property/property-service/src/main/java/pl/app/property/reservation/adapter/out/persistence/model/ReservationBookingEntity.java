@@ -23,7 +23,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "t_reservation_booking")
-public class ReservationBookingEntity extends AbstractEntity<UUID> implements RootAware<ReservationEntity> {
+public class ReservationBookingEntity extends AbstractEntity<UUID> implements
+        RootAware<ReservationEntity> {
     @Id
     @Column(name = "reservation_booking_id", nullable = false)
     private UUID reservationBookingId;
@@ -39,12 +40,6 @@ public class ReservationBookingEntity extends AbstractEntity<UUID> implements Ro
     private Integer numberOfChildren;
     @Column(name = "accommodation_type_reservation_type_id")
     private UUID accommodationTypeReservationTypeId;
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Column(name = "charge_id", nullable = false)
-    @CollectionTable(name = "t_reservation_booking_charge_ids", joinColumns = @JoinColumn(name = "booking_id"))
-    @Builder.Default
-    private Set<UUID> chargeIds = new LinkedHashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "reservation_id", updatable = false)

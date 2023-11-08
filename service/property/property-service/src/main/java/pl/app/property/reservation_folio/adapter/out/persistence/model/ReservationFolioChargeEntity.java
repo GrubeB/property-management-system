@@ -26,6 +26,8 @@ public class ReservationFolioChargeEntity extends AbstractEntity<UUID> implement
     @Id
     @Column(name = "charge_id", nullable = false)
     private UUID chargeId;
+    @Column(name = "object_id")
+    private UUID objectId;
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private ReservationFolioChargeType type;

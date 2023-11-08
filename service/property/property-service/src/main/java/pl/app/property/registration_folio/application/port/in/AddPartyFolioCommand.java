@@ -11,8 +11,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateRegistrationFolioCommand implements Serializable {
-    private UUID registrationId;
-    private UUID propertyId;
+public class AddPartyFolioCommand implements Serializable {
+    private UUID registrationFolioId;
     private List<UUID> partyIds;
 }

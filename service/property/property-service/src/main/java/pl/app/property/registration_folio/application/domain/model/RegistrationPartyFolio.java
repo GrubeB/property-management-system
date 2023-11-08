@@ -26,14 +26,14 @@ public class RegistrationPartyFolio {
     }
 
     // CHARGE
-    public RegistrationPartyFolioCharge addChargeToParty(RegistrationPartyFolioChargeType type, String name, BigDecimal amount, String current) {
-        RegistrationPartyFolioCharge newCharge = new RegistrationPartyFolioCharge(type, name, amount, current);
+    public RegistrationPartyFolioCharge addChargeToParty(UUID objectId, RegistrationPartyFolioChargeType type, String name, BigDecimal amount, String current) {
+        RegistrationPartyFolioCharge newCharge = new RegistrationPartyFolioCharge(objectId, type, name, amount, current);
         charges.add(newCharge);
         return newCharge;
     }
 
-    public RegistrationPartyFolioCharge addChargeToParty(RegistrationPartyFolioChargeType type, String name, BigDecimal amount, String current, Instant date) {
-        RegistrationPartyFolioCharge newCharge = new RegistrationPartyFolioCharge(type, name, amount, current, date);
+    public RegistrationPartyFolioCharge addChargeToParty(UUID objectId, RegistrationPartyFolioChargeType type, String name, BigDecimal amount, String current, Instant date) {
+        RegistrationPartyFolioCharge newCharge = new RegistrationPartyFolioCharge(objectId, type, name, amount, current, date);
         charges.add(newCharge);
         return newCharge;
     }

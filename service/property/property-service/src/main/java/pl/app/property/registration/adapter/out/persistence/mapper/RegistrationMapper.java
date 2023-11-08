@@ -65,7 +65,7 @@ public class RegistrationMapper {
                 .accommodationTypeId(domain.getAccommodationTypeId())
                 .accommodationTypeReservationId(domain.getAccommodationTypeReservationId())
                 .guests(domain.getGuests().stream().map(g -> this.getGuestEntityById(g.getGuestId(), guestEntities)).collect(Collectors.toSet()))
-                .chargeIds(new HashSet<>(domain.getChargeIds()))
+                .isChargeAdded(domain.getIsChargeAdded())
                 .build();
     }
 
@@ -104,7 +104,7 @@ public class RegistrationMapper {
                 entity.getAccommodationTypeId(),
                 entity.getGuests().stream().map(g -> this.getRegistrationGuestById(g.getGuestId(), guests)).collect(Collectors.toList()),
                 entity.getAccommodationTypeReservationId(),
-                new ArrayList<>(entity.getChargeIds())
+                entity.getIsChargeAdded()
         );
     }
 

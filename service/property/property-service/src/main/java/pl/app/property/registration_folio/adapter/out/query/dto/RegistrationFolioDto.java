@@ -1,37 +1,42 @@
-package pl.app.property.registration_folio.application.port.in;
+package pl.app.property.registration_folio.adapter.out.query.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.app.property.registration_folio.application.domain.model.RegistrationPartyFolioChargeType;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
-@NoArgsConstructor
+@Setter
 @AllArgsConstructor
-public class CreateRegistrationFolioWithExistingChargesCommand implements Serializable {
-    private UUID registrationId;
-    private UUID propertyId;
-    private List<PartyFolio> partyFolios;
+@NoArgsConstructor
+public class RegistrationFolioDto implements Serializable {
+    private UUID registrationFolioId;
+    private Set<PartyFolioDto> partyFolios;
 
     @Getter
-    @NoArgsConstructor
+    @Setter
     @AllArgsConstructor
-    public static class PartyFolio {
+    @NoArgsConstructor
+    public static class PartyFolioDto implements Serializable {
+        private UUID partyFolioId;
         private UUID partyId;
-        private List<Payment> payments;
-        private List<Charge> charges;
+        private Set<PartyFolioPaymentDto> payments;
+        private Set<PartyFolioChargeDto> charges;
     }
 
     @Getter
-    @NoArgsConstructor
+    @Setter
     @AllArgsConstructor
-    public static class Payment {
+    @NoArgsConstructor
+    public static class PartyFolioPaymentDto implements Serializable {
+        private UUID paymentId;
         private UUID guestId;
         private BigDecimal amount;
         private String current;
@@ -39,9 +44,11 @@ public class CreateRegistrationFolioWithExistingChargesCommand implements Serial
     }
 
     @Getter
-    @NoArgsConstructor
+    @Setter
     @AllArgsConstructor
-    public static class Charge {
+    @NoArgsConstructor
+    public static class PartyFolioChargeDto implements Serializable {
+        private UUID chargeId;
         private UUID objectId;
         private RegistrationPartyFolioChargeType type;
         private String name;

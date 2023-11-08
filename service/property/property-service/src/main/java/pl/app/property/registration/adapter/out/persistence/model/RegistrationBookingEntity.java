@@ -44,11 +44,8 @@ public class RegistrationBookingEntity extends AbstractEntity<UUID> implements R
     @Builder.Default
     private Set<GuestEntity> guests = new LinkedHashSet<>();
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Column(name = "charge_id", nullable = false)
-    @CollectionTable(name = "t_registration_booking_charge_ids", joinColumns = @JoinColumn(name = "booking_id"))
-    @Builder.Default
-    private Set<UUID> chargeIds = new LinkedHashSet<>();
+    @Column(name = "is_charge_added", nullable = false)
+    private Boolean isChargeAdded;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "registration_id", nullable = false)

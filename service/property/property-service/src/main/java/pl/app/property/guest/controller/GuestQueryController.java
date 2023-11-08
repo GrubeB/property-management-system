@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Getter
 public class GuestQueryController implements
-        QueryController.Fetchable<UUID, GuestEntity> {
+        QueryController.DtoFetchable<UUID, GuestEntity> {
     public static final String resourceName = "guests";
     public static final String resourcePath = "/api/v1/" + resourceName;
     public final GuestQueryService service;

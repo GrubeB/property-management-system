@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AddBookingToRegistrationCommand implements Serializable {
     private UUID registrationId;
-    private List<AccommodationTypeBooking> accommodationTypeBookings;
+    private List<AccommodationTypeBooking> bookings;
 
     @Getter
     @NoArgsConstructor
@@ -23,6 +23,6 @@ public class AddBookingToRegistrationCommand implements Serializable {
         private LocalDate startDate;
         private LocalDate endDate;
         private UUID accommodationTypeId;
-        private List<UUID> guestId;
+        private List<UUID> guestIds;
     }
 }

@@ -47,8 +47,7 @@ public class ReservationMapper {
                 entity.getAccommodationTypeId(),
                 entity.getNumberOfAdults(),
                 entity.getNumberOfChildren(),
-                entity.getAccommodationTypeReservationTypeId(),
-                entity.getChargeIds().stream().collect(Collectors.toList())
+                entity.getAccommodationTypeReservationTypeId()
         );
     }
 
@@ -87,7 +86,6 @@ public class ReservationMapper {
                 .numberOfAdults(domain.getNumberOfAdults())
                 .numberOfChildren(domain.getNumberOfChildren())
                 .accommodationTypeReservationTypeId(domain.getAccommodationTypeReservationId())
-                .chargeIds(domain.getChargeIds().stream().collect(Collectors.toSet()))
                 .build();
     }
 

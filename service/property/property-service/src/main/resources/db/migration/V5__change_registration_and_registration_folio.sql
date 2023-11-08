@@ -1,0 +1,7 @@
+ALTER TABLE t_registration_party_folio_charge ADD COLUMN object_id UUID;
+ALTER TABLE t_registration_booking ADD COLUMN is_charge_added BOOLEAN;
+UPDATE t_registration_booking SET is_charge_added = false;
+ALTER TABLE t_registration_booking ALTER COLUMN is_charge_added SET NOT NULL;
+
+ALTER TABLE t_registration_booking_charge_ids DROP CONSTRAINT fk_tregistrationbookingchargeids_on_registrationbookingentity;
+DROP TABLE t_registration_booking_charge_ids;

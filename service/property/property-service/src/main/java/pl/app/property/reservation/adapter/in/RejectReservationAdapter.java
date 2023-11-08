@@ -22,7 +22,7 @@ class RejectReservationAdapter {
     private final RejectNoPaidReservationsUseCase rejectNoPaidReservationsUseCase;
     private final PropertyQueryService propertyQueryService;
 
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 0 * * * *")
     public void rejectNoPaidReservations() {
         logger.debug("Rejecting all no paid reservations");
         List<UUID> propertyIds = propertyQueryService.fetchIdAll();

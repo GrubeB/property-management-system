@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -28,15 +29,19 @@ public class RegistrationParty {
         this.guests.add(guest);
     }
 
-    public void removeGuest(RegistrationGuest guest) {
-        this.guests.remove(guest);
+    public void removeGuest(RegistrationGuest guestToRemove) {
+        this.guests.removeIf(g -> Objects.equals(g.getGuestId(), guestToRemove.getGuestId()));
     }
 
-    public Boolean isGuestInParty(RegistrationGuest guest) {
+    public boolean containsGuest(RegistrationGuest guest) {
         return this.guests.stream().anyMatch(g -> g.getGuestId().equals(guest.getGuestId()));
     }
 
-    public Boolean isAllGuestInParty(List<RegistrationGuest> guests) {
-        return guests.stream().allMatch(this::isGuestInParty);
+    public boolean containsAllGuest(List<RegistrationGuest> guests) {
+        return guests.stream().allMatch(this::containsGuest);
+    }
+
+    public boolean isEmpty() {
+        return guests.isEmpty();
     }
 }

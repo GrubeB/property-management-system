@@ -1,8 +1,8 @@
 package pl.app.property.registration.application.port.out;
 
 
-import pl.app.property.registration.application.domain.model.Registration;
+import pl.app.property.registration.application.domain.model.RegistrationBooking;
 
 public interface AccommodationTypeAvailabilityPort {
-    boolean isAccommodationTypeAvailable(Registration registration);
+    boolean isAccommodationTypeAvailable(RegistrationBooking booking);
 }

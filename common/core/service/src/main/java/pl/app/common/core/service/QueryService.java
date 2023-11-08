@@ -242,6 +242,12 @@ public interface QueryService {
     @SuppressWarnings("unchecked")
     interface DtoFetchableSupport {
         default <T> Class<T> getClass(Dto dto) {
+            if(dto.getClassName() == null){
+                if (getDefaultDtoClass() == null) {
+                    throw new RuntimeException("not found dto class with name: " + dto.getClassName());
+                }
+                return (Class<T>) getDefaultDtoClass();
+            }
             Class<?> clazz = getDtoClasses().get(dto.getClassName());
             if (clazz == null) {
                 if (getDefaultDtoClass() == null) {

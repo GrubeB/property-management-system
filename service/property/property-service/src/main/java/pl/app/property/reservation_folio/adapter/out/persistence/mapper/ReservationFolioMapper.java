@@ -43,6 +43,7 @@ public class ReservationFolioMapper {
     private ReservationFolioChargeEntity mapToReservationFolioChargeEntity(ReservationFolioCharge domain) {
         return ReservationFolioChargeEntity.builder()
                 .chargeId(domain.getChargeId())
+                .objectId(domain.getObjectId())
                 .type(domain.getType())
                 .name(domain.getName())
                 .amount(domain.getAmount())
@@ -76,6 +77,7 @@ public class ReservationFolioMapper {
     private ReservationFolioCharge mapToReservationFolioCharge(ReservationFolioChargeEntity entity) {
         return new ReservationFolioCharge(
                 entity.getChargeId(),
+                entity.getObjectId(),
                 entity.getType(),
                 entity.getName(),
                 entity.getAmount(),

@@ -10,9 +10,7 @@ import pl.app.common.core.model.AbstractEntity;
 import pl.app.common.core.model.RootAware;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity

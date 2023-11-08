@@ -17,7 +17,6 @@ import pl.app.property.registration_folio.application.port.in.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -73,13 +72,13 @@ class RegistrationFolioAdapter implements RegistrationFolioPort {
 
         return Stream.concat(chargesWithoutObjectId.stream(), mergedChargesWithTheSameObjectId.stream())
                 .map(charge -> new CreateRegistrationFolioWithExistingChargesCommand.Charge(
-                charge.getObjectId(),
-                charge.getType(),
-                charge.getName(),
-                charge.getAmount(),
-                charge.getCurrency(),
-                charge.getDate()
-        )).collect(Collectors.toList());
+                        charge.getObjectId(),
+                        charge.getType(),
+                        charge.getName(),
+                        charge.getAmount(),
+                        charge.getCurrency(),
+                        charge.getDate()
+                )).collect(Collectors.toList());
     }
 
     private List<CreateRegistrationFolioWithExistingChargesCommand.Payment> mapPayments(List<CreateRegistrationFromReservationCommand.Payment> payments) {
@@ -94,7 +93,7 @@ class RegistrationFolioAdapter implements RegistrationFolioPort {
 
     @Override
     public UUID createRegistrationFolio(UUID registrationId, UUID propertyId, List<UUID> partyIds) {
-        CreateRegistrationFolioCommand command = new CreateRegistrationFolioCommand(registrationId,propertyId, partyIds);
+        CreateRegistrationFolioCommand command = new CreateRegistrationFolioCommand(registrationId, propertyId, partyIds);
         return createRegistrationFolioUseCase.createRegistrationFolio(command);
     }
 

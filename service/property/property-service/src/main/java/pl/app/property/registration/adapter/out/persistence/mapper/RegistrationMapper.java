@@ -17,7 +17,9 @@ import pl.app.property.registration_folio.adapter.out.persistence.model.Registra
 import pl.app.property.registration_folio.adapter.out.persistence.repository.RegistrationFolioRepository;
 import pl.app.property.registration_folio.application.domain.exception.RegistrationFolioException;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 

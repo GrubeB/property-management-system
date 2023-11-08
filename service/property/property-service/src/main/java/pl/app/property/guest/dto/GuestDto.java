@@ -1,16 +1,12 @@
 package pl.app.property.guest.dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.app.property.guest.model.GuestAddressEntity;
-import pl.app.property.property.model.PropertyType;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.time.LocalTime;
 import java.util.UUID;
 
 @Getter

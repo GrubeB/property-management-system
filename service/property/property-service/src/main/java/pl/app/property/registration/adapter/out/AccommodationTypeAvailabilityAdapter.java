@@ -13,6 +13,7 @@ class AccommodationTypeAvailabilityAdapter implements
         AccommodationTypeAvailabilityPort {
 
     private final IsAccommodationTypeAvailableUseCase isAccommodationTypeAvailableUseCase;
+
     public boolean isAccommodationTypeAvailable(RegistrationBooking registration) {
         return isAccommodationTypeAvailableUseCase.isAccommodationTypeAvailable(new IsAccommodationTypeAvailableCommand(
                 registration.getAccommodationTypeId(),

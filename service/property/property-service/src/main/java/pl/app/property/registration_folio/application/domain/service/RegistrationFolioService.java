@@ -38,13 +38,13 @@ class RegistrationFolioService implements
 
     @Override
     public UUID createRegistrationFolio(CreateRegistrationFolioCommand command) {
-        RegistrationFolio registrationFolio = new RegistrationFolio(command.getRegistrationId(),command.getPropertyId(), command.getPartyIds());
+        RegistrationFolio registrationFolio = new RegistrationFolio(command.getRegistrationId(), command.getPropertyId(), command.getPartyIds());
         return saveRegistrationFolioPort.saveRegistrationFolio(registrationFolio);
     }
 
     @Override
     public UUID createRegistrationFolio(CreateRegistrationFolioWithExistingChargesCommand command) {
-        RegistrationFolio registrationFolio = new RegistrationFolio(command.getRegistrationId(),command.getPropertyId());
+        RegistrationFolio registrationFolio = new RegistrationFolio(command.getRegistrationId(), command.getPropertyId());
         command.getPartyFolios().forEach(pf -> {
             RegistrationPartyFolio partyFolio = new RegistrationPartyFolio(pf.getPartyId());
             pf.getCharges().forEach(charge -> partyFolio.addChargeToParty(charge.getObjectId(), charge.getType(), charge.getName(), charge.getAmount(), charge.getCurrent(), charge.getDate()));

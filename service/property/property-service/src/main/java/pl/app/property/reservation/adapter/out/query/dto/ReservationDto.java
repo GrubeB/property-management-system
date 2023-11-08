@@ -1,8 +1,10 @@
 package pl.app.property.reservation.adapter.out.query.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.app.common.core.web.dto.BaseDto;
-import pl.app.property.guest.dto.GuestDto;
 import pl.app.property.reservation.adapter.out.persistence.model.ReservationBookingEntity;
 import pl.app.property.reservation.application.domain.model.ReservationSource;
 import pl.app.property.reservation.application.domain.model.ReservationStatus;

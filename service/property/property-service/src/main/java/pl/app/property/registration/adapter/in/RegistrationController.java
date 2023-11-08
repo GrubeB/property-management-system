@@ -90,6 +90,7 @@ public class RegistrationController {
                 .noContent()
                 .build();
     }
+
     @PostMapping(path = removeBookingFromRegistrationPath)
     public ResponseEntity<Void> removeBookingFromRegistration(@RequestBody RemoveBookingFromRegistrationCommand command) {
         removeBookingFromRegistrationUseCase.removeBookingFromRegistration(command);
@@ -97,6 +98,7 @@ public class RegistrationController {
                 .noContent()
                 .build();
     }
+
     @PostMapping(path = addGuestToBooking)
     public ResponseEntity<Void> addGuestToBooking(@RequestBody AddGuestToBookingCommand command) {
         addGuestToBookingUseCase.addGuestToBooking(command);
@@ -104,6 +106,7 @@ public class RegistrationController {
                 .noContent()
                 .build();
     }
+
     @PostMapping(path = removeGuestFromBookingPath)
     public ResponseEntity<Void> removeGuestFromBooking(@RequestBody RemoveGuestFromBookingCommand command) {
         removeGuestFromBookingUseCase.removeGuestFromBooking(command);

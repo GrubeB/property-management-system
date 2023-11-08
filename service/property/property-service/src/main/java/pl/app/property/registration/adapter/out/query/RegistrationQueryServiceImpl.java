@@ -10,8 +10,6 @@ import pl.app.common.core.web.dto.BaseDto;
 import pl.app.property.registration.adapter.out.persistence.model.RegistrationEntity;
 import pl.app.property.registration.adapter.out.persistence.repository.RegistrationRepository;
 import pl.app.property.registration.adapter.out.query.dto.RegistrationDto;
-import pl.app.property.registration_folio.adapter.out.persistence.model.RegistrationFolioEntity;
-import pl.app.property.registration_folio.adapter.out.query.dto.RegistrationFolioDto;
 
 import java.util.AbstractMap;
 import java.util.HashMap;

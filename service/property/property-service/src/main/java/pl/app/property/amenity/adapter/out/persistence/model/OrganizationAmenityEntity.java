@@ -33,7 +33,7 @@ public class OrganizationAmenityEntity extends AbstractEntity<UUID> {
     })
     @JoinColumn(name = "amenity_id", updatable = false)
     @Fetch(FetchMode.SELECT)
-    private AmenityEntity amenityEntity;
+    private AmenityEntity amenity;
 
     @Override
     public UUID getId() {

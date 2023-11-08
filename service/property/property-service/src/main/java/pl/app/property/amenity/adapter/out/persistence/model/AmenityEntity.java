@@ -28,25 +28,25 @@ public class AmenityEntity extends AbstractEntity<UUID> {
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_name")
-    private AmenityCategoryEntity amenityCategoryEntity;
+    @JoinColumn(name = "category")
+    private AmenityCategoryEntity amenityCategory;
     @Column(nullable = false)
     private String description;
     private Boolean standard;
 
     @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "amenityEntity",
+            mappedBy = "amenity",
             cascade = CascadeType.ALL)
     @ToString.Exclude
     @JsonIgnore
     @Builder.Default
-    private Set<OrganizationAmenityEntity> organizationAmenityEntities = new LinkedHashSet<>();
+    private Set<OrganizationAmenityEntity> organizationAmenities = new LinkedHashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "amenityEntity", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "amenity", cascade = CascadeType.ALL)
     @ToString.Exclude
     @JsonIgnore
     @Builder.Default
-    private Set<PropertyAmenityEntity> propertyAmenityEntities = new LinkedHashSet<>();
+    private Set<PropertyAmenityEntity> propertyAmenities = new LinkedHashSet<>();
 
     @Override
     public UUID getId() {

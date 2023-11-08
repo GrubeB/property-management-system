@@ -1,4 +1,4 @@
-package pl.app.property.property.dto;
+package pl.app.common.core.web.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,6 +12,6 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PropertyBaseDto implements Serializable {
-    private UUID propertyId;
+public class BaseDto implements Serializable {
+    private UUID id;
 }

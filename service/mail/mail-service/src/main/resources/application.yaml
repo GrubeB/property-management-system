@@ -14,7 +14,7 @@ spring:
   config:
     import: optional:classpath:application-secret.yaml
   datasource:
-    url: jdbc:postgresql://localhost:5435/postgres
+    url: jdbc:postgresql://localhost:5437/postgres
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -22,9 +22,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-    properties:
-      hibernate:
-        format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   mail:

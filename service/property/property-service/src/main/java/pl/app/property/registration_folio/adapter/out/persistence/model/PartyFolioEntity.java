@@ -41,6 +41,12 @@ public class PartyFolioEntity extends AbstractEntity<UUID> implements RootAware<
     @Builder.Default
     private Set<PartyFolioChargeEntity> charges = new LinkedHashSet<>();
 
+    @ElementCollection
+    @Column(name = "global_payment_id", nullable = false)
+    @CollectionTable(name = "t_registration_folio_global_payment", joinColumns = @JoinColumn(name = "party_folio_id"))
+    @Builder.Default
+    private Set<UUID> globalPaymentIds = new LinkedHashSet<>();
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "registration_folio_id", nullable = false)
     @ToString.Exclude

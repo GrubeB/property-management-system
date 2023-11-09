@@ -25,6 +25,7 @@ class ReservationFolioAdapter implements
     private final CalculateAccommodationTypePriceUseCase calculateAccommodationTypePriceUseCase;
     private final AddChargeFolioUseCase addChargeFolioUseCase;
     private final IsReservationFolioPaidUseCase isReservationFolioPaidUseCase;
+    private final RefundReservationFolioUseCase refundReservationFolioUseCase;
 
     @Override
     public UUID createFolio(UUID reservationId, UUID propertyId) {
@@ -83,6 +84,6 @@ class ReservationFolioAdapter implements
 
     @Override
     public void refund(UUID reservationFolioId) {
-        // TODO return money to guest
+        refundReservationFolioUseCase.refund(new RefundReservationFolioCommand(reservationFolioId));
     }
 }

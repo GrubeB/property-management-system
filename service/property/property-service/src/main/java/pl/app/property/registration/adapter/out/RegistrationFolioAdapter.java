@@ -35,6 +35,7 @@ class RegistrationFolioAdapter implements RegistrationFolioPort {
     private final FetchPaymentsByObjectIdUseCase fetchPaymentsByObjectIdUseCase;
     private final AddPartyFolioUseCase addPartyFolioUseCase;
     private final RemovePartyFolioUseCase removePartyFolioUseCase;
+    private final RefundRegistrationFolioUseCase refundRegistrationFolioUseCase;
 
     @Override
     public UUID createRegistrationFolio(UUID registrationId, UUID propertyId, UUID partyId, CreateRegistrationFromReservationCommand.Folio folio) {
@@ -141,7 +142,7 @@ class RegistrationFolioAdapter implements RegistrationFolioPort {
 
     @Override
     public void refund(UUID registrationFolioId) {
-        // TODO
+        refundRegistrationFolioUseCase.refundRegistrationFolio(new RefundRegistrationFolioCommand(registrationFolioId));
     }
 
     @Override

@@ -43,6 +43,12 @@ public class ReservationFolioEntity extends AbstractEntity<UUID> {
     @Builder.Default
     private Set<ReservationFolioChargeEntity> charges = new LinkedHashSet<>();
 
+    @ElementCollection
+    @Column(name = "global_payment_id", nullable = false)
+    @CollectionTable(name = "t_reservation_folio_global_payment", joinColumns = @JoinColumn(name = "reservation_folio_id"))
+    @Builder.Default
+    private Set<UUID> globalPaymentIds = new LinkedHashSet<>();
+
     @Override
     public UUID getId() {
         return reservationFolioId;

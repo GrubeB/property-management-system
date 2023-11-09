@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.app.property.payment.adapter.out.persistence.model.PaymentEntity;
 import pl.app.property.payment.adapter.out.persistence.model.PaymentOrderEntity;
+import pl.app.property.payment.adapter.out.persistence.model.StripePaymentEntity;
 import pl.app.property.payment.application.domain.model.Payment;
 import pl.app.property.payment.application.domain.model.PaymentOrder;
+import pl.app.property.payment.application.domain.model.StripePayment;
 import pl.app.property.property.model.PropertyEntity;
 import pl.app.property.property.service.PropertyQueryService;
 
@@ -16,6 +18,15 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PaymentMapper {
     private final PropertyQueryService propertyQueryService;
+
+    public StripePayment mapToStripePayment(StripePaymentEntity entity) {
+        return new StripePayment(
+                entity.getStripePaymentId(),
+                this.mapToPayment(entity.getPaymentEntity()),
+                entity.getPaymentIntent(),
+                entity.getSessionCheckoutId()
+        );
+    }
 
     public Payment mapToPayment(PaymentEntity entity) {
         return new Payment(
@@ -40,6 +51,15 @@ public class PaymentMapper {
                 entity.getIsLedgerUpdated(),
                 entity.getIsWalletUpdated()
         );
+    }
+
+    public StripePaymentEntity mapToStripePaymentEntity(StripePayment domain) {
+        return StripePaymentEntity.builder()
+                .stripePaymentId(domain.getStripePaymentId())
+                .paymentEntity(this.mapToPaymentEntity(domain.getPayment()))
+                .paymentIntent(domain.getPaymentIntent())
+                .sessionCheckoutId(domain.getSessionCheckoutId())
+                .build();
     }
 
     public PaymentEntity mapToPaymentEntity(Payment domain) {

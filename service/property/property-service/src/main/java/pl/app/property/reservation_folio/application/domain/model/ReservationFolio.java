@@ -19,6 +19,7 @@ public class ReservationFolio {
     private ReservationPaymentPolicyType type;
     private List<ReservationFolioPayment> payments;
     private List<ReservationFolioCharge> charges;
+    private List<UUID> globalPaymentIds;
 
     public ReservationFolio(UUID reservationId, ReservationPaymentPolicyType type) {
         this.reservationFolioId = UUID.randomUUID();
@@ -26,6 +27,7 @@ public class ReservationFolio {
         this.type = type;
         this.payments = new ArrayList<>();
         this.charges = new ArrayList<>();
+        this.globalPaymentIds = new ArrayList<>();
     }
 
     public ReservationFolioCharge addCharge(UUID objectId, ReservationFolioChargeType type, String name, BigDecimal amount, String current, Boolean shouldByPaidBeforeRegistration) {
@@ -55,11 +57,14 @@ public class ReservationFolio {
         return paymentAmount.subtract(chargeAmount);
     }
 
-
     public void removeCharge(UUID chargeId) {
         ReservationFolioCharge reservationFolioCharge = charges.stream()
                 .filter(ch -> ch.getChargeId().equals(chargeId))
                 .findAny().orElseThrow(() -> ReservationFolioException.NotFoundReservationFolioChargeException.fromId(chargeId));
         this.charges.remove(reservationFolioCharge);
+    }
+
+    public void addGlobalPaymentId(UUID paymentId) {
+        this.globalPaymentIds.add(paymentId);
     }
 }

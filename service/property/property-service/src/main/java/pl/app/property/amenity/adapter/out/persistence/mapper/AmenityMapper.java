@@ -10,7 +10,9 @@ import pl.app.property.amenity.adapter.out.persistence.repository.AmenityCategor
 import pl.app.property.amenity.application.domain.exception.AmenityException;
 import pl.app.property.amenity.application.domain.model.*;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -27,6 +29,7 @@ public class AmenityMapper {
                 .standard(domain.getStandard())
                 .build();
     }
+
     public Amenity mapToAmenity(AmenityEntity entity) {
         return new Amenity(
                 entity.getAmenityId(),

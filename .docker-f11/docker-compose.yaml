@@ -10,6 +10,16 @@ services:
       POSTGRESQL_DATABASE: postgres
       POSTGRESQL_USERNAME: postgres
       POSTGRESQL_PASSWORD: postgres
+  mail-db:
+    container_name: 'mail-db'
+    image: 'bitnami/postgresql:13'
+    restart: unless-stopped
+    ports:
+      - '5437:5432'
+    environment:
+      POSTGRESQL_DATABASE: postgres
+      POSTGRESQL_USERNAME: postgres
+      POSTGRESQL_PASSWORD: postgres
   pgadmin:
     container_name: 'pgadmin'
     image: 'dpage/pgadmin4:7.4'

@@ -17,12 +17,14 @@ public class RegistrationPartyFolio {
     private UUID partyId;
     private List<RegistrationPartyFolioPayment> payments;
     private List<RegistrationPartyFolioCharge> charges;
+    private List<UUID> globalPaymentIds;
 
     public RegistrationPartyFolio(UUID partyId) {
         this.partyFolioId = UUID.randomUUID();
         this.partyId = partyId;
         this.payments = new ArrayList<>();
         this.charges = new ArrayList<>();
+        this.globalPaymentIds = new ArrayList<>();
     }
 
     // CHARGE
@@ -79,5 +81,9 @@ public class RegistrationPartyFolio {
 
     public boolean isEmpty() {
         return this.charges.isEmpty() && this.payments.isEmpty();
+    }
+
+    public void addGlobalPaymentId(UUID paymentId) {
+        this.globalPaymentIds.add(paymentId);
     }
 }

@@ -29,6 +29,7 @@ public class RegistrationFolioDto implements Serializable {
         private UUID partyId;
         private Set<PartyFolioPaymentDto> payments;
         private Set<PartyFolioChargeDto> charges;
+        private Set<UUID> globalPaymentIds;
     }
 
     @Getter

@@ -95,13 +95,13 @@ public class RegistrationFolio {
         return partyFolio.addPaymentToParty(guestId, amount, current);
     }
 
-    private RegistrationPartyFolio getPartyFolioByPartyId(UUID partyId) {
+    public RegistrationPartyFolio getPartyFolioByPartyId(UUID partyId) {
         return this.partyFolios.stream()
                 .filter(pf -> pf.getPartyId().equals(partyId))
                 .findAny().orElseThrow(() -> RegistrationFolioException.NotFoundPartyFolioException.fromPartyId(partyId));
     }
 
-    private RegistrationPartyFolio getPartyFolioByPartyFolioId(UUID partyFolioId) {
+    public RegistrationPartyFolio getPartyFolioByPartyFolioId(UUID partyFolioId) {
         return this.partyFolios.stream()
                 .filter(pf -> pf.getPartyFolioId().equals(partyFolioId))
                 .findAny().orElseThrow(() -> RegistrationFolioException.NotFoundPartyFolioException.fromId(partyFolioId));

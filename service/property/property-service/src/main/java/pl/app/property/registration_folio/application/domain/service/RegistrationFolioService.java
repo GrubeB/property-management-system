@@ -18,6 +18,8 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 class RegistrationFolioService implements
+        RefundRegistrationFolioUseCase,
+        RefundPartyFolioUseCase,
         AddPartyFolioUseCase,
         RemovePartyFolioUseCase,
         FetchPaymentsByObjectIdUseCase,
@@ -102,6 +104,9 @@ class RegistrationFolioService implements
         UUID paymentId = paymentPort.createPayment(registrationFolio.getPropertyId(), command.getPartyFolioId(),
                 "Registration: " + registrationFolio.getRegistrationId(), command.getGuestId(), command.getAmount(), command.getCurrent());
         registrationMailPort.sendMail(paymentId, command.getGuestId(), registrationFolio.getPropertyId());
+        RegistrationPartyFolio partyFolio = registrationFolio.getPartyFolioByPartyFolioId(command.getPartyFolioId());
+        partyFolio.addGlobalPaymentId(paymentId);
+        saveRegistrationFolioPort.saveRegistrationFolio(registrationFolio);
         return paymentId;
     }
 
@@ -123,5 +128,19 @@ class RegistrationFolioService implements
         RegistrationFolio registrationFolio = loadRegistrationFolioPort.loadRegistrationFolio(command.getRegistrationFolioId());
         command.getPartyIds().forEach(registrationFolio::removePartyByPartyId);
         saveRegistrationFolioPort.saveRegistrationFolio(registrationFolio);
+    }
+
+    @Override
+    public void refundPartyFolio(RefundPartyFolioCommand command) {
+        RegistrationFolio registrationFolio = loadRegistrationFolioPort.loadRegistrationFolioByPartyFolio(command.getPartyFolioId());
+        RegistrationPartyFolio partyFolio = registrationFolio.getPartyFolioByPartyFolioId(command.getPartyFolioId());
+        paymentPort.refundPayment(partyFolio.getGlobalPaymentIds());
+    }
+
+    @Override
+    public void refundRegistrationFolio(RefundRegistrationFolioCommand command) {
+        RegistrationFolio registrationFolio = loadRegistrationFolioPort.loadRegistrationFolio(command.getRegistrationFolioId());
+        List<RegistrationPartyFolio> partyFolios = registrationFolio.getPartyFolios();
+        partyFolios.forEach(partyFolio -> paymentPort.refundPayment(partyFolio.getGlobalPaymentIds()));
     }
 }

@@ -47,12 +47,6 @@ public class GuestEntity extends AbstractEntity<UUID> implements
     @JoinColumn(name = "address_id")
     private GuestAddressEntity address;
 
-    @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
-            mappedBy = "guest",
-            orphanRemoval = true)
-    @Builder.Default
-    private Set<CreditCardEntity> creditCards = new LinkedHashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "property_id", nullable = false)
@@ -68,13 +62,6 @@ public class GuestEntity extends AbstractEntity<UUID> implements
     @Override
     public PropertyEntity getParent() {
         return property;
-    }
-
-    public void setCreditCards(Set<CreditCardEntity> creditCards) {
-        this.creditCards.clear();
-        creditCards.stream()
-                .peek(ch -> ch.setGuest(this))
-                .forEach(this.creditCards::add);
     }
 
     @Override

@@ -27,9 +27,10 @@ public class PrivilegeEntity extends AbstractEntity<UUID> implements RootAware<U
     @Column(name = "domain_object_id")
     private UUID domainObjectId;
 
-    @OneToOne(optional = false, orphanRemoval = true)
+    @OneToOne(optional = false)
     @JoinColumn(name = "permission_id", nullable = false)
     private PermissionEntity permission;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", updatable = false)
     @ToString.Exclude

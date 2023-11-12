@@ -16,7 +16,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Getter
 public class RegistrationByPropertyQueryController implements
-        QueryController.DtoFetchableWithFilter<UUID, RegistrationEntity> {
+        QueryController.DtoFetchableWithFilter.Full<UUID, RegistrationEntity> {
     public static final String resourceName = "registrations";
     public static final String resourcePath = "/api/v1/organizations/{organizationId}/properties/{propertyId}/" + resourceName;
 

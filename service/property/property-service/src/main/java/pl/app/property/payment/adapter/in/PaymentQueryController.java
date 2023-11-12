@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Getter
 public class PaymentQueryController implements
-        QueryController.Fetchable<UUID, PaymentEntity> {
+        QueryController.DtoFetchable.Full<UUID, PaymentEntity> {
     public static final String resourceName = "payments";
     public static final String resourcePath = "/api/v1/" + resourceName;
     public final PaymentQueryService service;

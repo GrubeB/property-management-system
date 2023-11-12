@@ -1,18 +1,17 @@
 package pl.app.property.property.service;
 
-import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.app.common.core.web.dto.BaseDto;
 import pl.app.property.property.dto.PropertyDto;
-import pl.app.property.property.model.PropertyEntity;
+import pl.app.property.property.mapper.PropertyMapper;
 import pl.app.property.property.persistence.PropertyRepository;
 
-import java.util.*;
-import java.util.function.Function;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,23 +20,12 @@ import java.util.function.Function;
 class PropertyQueryServiceImpl implements PropertyQueryService {
     private final PropertyRepository repository;
     private final PropertyRepository specificationRepository;
+    private final PropertyMapper mapper;
 
-    private final Map<String, Class<?>> dtoClasses = Map.of(
-            "BaseDto", BaseDto.class,
-            "PropertyDto", PropertyDto.class
+    private final Map<String, Class<?>> supportedDtoClasses = Map.of(
+            "PropertyDto", PropertyDto.class,
+            "BaseDto", BaseDto.class
     );
-    public final Class<BaseDto> defaultDtoClass = BaseDto.class;
-
-    private final Map<AbstractMap.SimpleEntry<Class<?>, Class<?>>, Function<?, ?>> dtoMappers = new HashMap<>();
-    private final ModelMapper modelMapper;
-
-    @PostConstruct
-    void init() {
-        dtoMappers.put(new AbstractMap.SimpleEntry<>(PropertyEntity.class, BaseDto.class),
-                (PropertyEntity e) -> modelMapper.map(e, PropertyDto.class));
-        dtoMappers.put(new AbstractMap.SimpleEntry<>(PropertyEntity.class, PropertyDto.class),
-                (PropertyEntity e) -> modelMapper.map(e, PropertyDto.class));
-    }
 
     @Override
     public List<UUID> fetchIdAll() {

@@ -5,7 +5,7 @@ import pl.app.property.accommodation_price.adapter.out.persistence.model.Accommo
 
 import java.util.UUID;
 
-public interface AccommodationTypePriceQueryService
-        extends QueryService.Fetchable<UUID, AccommodationTypePriceEntity> {
+public interface AccommodationTypePriceQueryService extends
+        QueryService.Full<UUID, AccommodationTypePriceEntity> {
     AccommodationTypePriceEntity fetchByAccommodationTypeId(UUID accommodationTypeId);
 }

@@ -7,5 +7,5 @@ import java.util.UUID;
 
 
 public interface ReservationPaymentPolicyQueryService extends
-        QueryService.Fetchable<UUID, ReservationPaymentPolicyEntity> {
+        QueryService.Full<UUID, ReservationPaymentPolicyEntity> {
 }

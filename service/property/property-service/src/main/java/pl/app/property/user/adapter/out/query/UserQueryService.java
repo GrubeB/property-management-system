@@ -7,5 +7,5 @@ import java.util.UUID;
 
 
 public interface UserQueryService extends
-        QueryService.FullFetchable<UUID, UserEntity> {
+        QueryService.Full<UUID, UserEntity> {
 }

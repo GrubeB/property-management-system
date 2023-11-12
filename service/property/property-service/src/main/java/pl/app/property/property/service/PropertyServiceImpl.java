@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.app.property.organization.model.OrganizationEntity;
 import pl.app.property.organization.service.OrganizationQueryService;
+import pl.app.property.property.mapper.PropertyMapper;
 import pl.app.property.property.model.PropertyEntity;
 import pl.app.property.property.persistence.PropertyRepository;
 import pl.app.property.reservation_payment_policy.application.port.in.CreateReservationPaymentPolicyCommand;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @Getter
 class PropertyServiceImpl implements PropertyService {
     private final PropertyRepository repository;
+    private final PropertyMapper mapper;
     private final OrganizationQueryService organizationQueryService;
 
     private final CreateReservationPaymentPolicyUseCase createReservationPaymentPolicyUseCase;

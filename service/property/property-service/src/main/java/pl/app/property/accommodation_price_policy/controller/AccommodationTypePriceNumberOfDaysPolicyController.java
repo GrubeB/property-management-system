@@ -8,7 +8,6 @@ import pl.app.common.core.web.CommandController;
 import pl.app.property.accommodation_price_policy.model.AccommodationTypePriceNumberOfDaysPolicyEntity;
 import pl.app.property.accommodation_price_policy.service.AccommodationTypePriceNumberOfDaysPolicyService;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -16,11 +15,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Getter
 public class AccommodationTypePriceNumberOfDaysPolicyController implements
-        CommandController.CreatableWithParent<UUID, AccommodationTypePriceNumberOfDaysPolicyEntity>,
-        CommandController.Updatable<UUID, AccommodationTypePriceNumberOfDaysPolicyEntity>,
-        CommandController.DeletableById<UUID, AccommodationTypePriceNumberOfDaysPolicyEntity> {
+        CommandController.Creatable.CreatableWithParent<UUID, AccommodationTypePriceNumberOfDaysPolicyEntity, UUID>,
+        CommandController.Updatable.UpdatableWithParent<UUID, AccommodationTypePriceNumberOfDaysPolicyEntity, UUID>,
+        CommandController.Deletable.SimpleDeletable<UUID, AccommodationTypePriceNumberOfDaysPolicyEntity> {
     public static final String resourceName = "number-of-days-policies";
     public static final String resourcePath = "/api/v1/organizations/{organizationId}/properties/{propertyId}/accommodation-type-price-policies/" + resourceName;
-    private final List<String> parentIdPathVariableNames = List.of("propertyId");
+    private final String parentIdPathVariableName = "propertyId";
+
     public final AccommodationTypePriceNumberOfDaysPolicyService service;
 }

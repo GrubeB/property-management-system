@@ -41,8 +41,12 @@ public class PropertyDetailsEntity extends AbstractEntity<UUID> implements
     private PropertyEntity property;
 
     public void setPropertyAddress(PropertyAddressEntity propertyAddress) {
-        propertyAddress.setPropertyDetails(this);
-        this.propertyAddress = propertyAddress;
+        this.propertyAddress = null;
+        if (propertyAddress != null) {
+            propertyAddress.setPropertyDetails(this);
+            this.propertyAddress = propertyAddress;
+        }
+
     }
 
     @Override

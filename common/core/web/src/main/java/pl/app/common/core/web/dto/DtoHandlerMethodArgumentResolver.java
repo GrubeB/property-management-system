@@ -12,6 +12,7 @@ import pl.app.common.core.service.dto.DtoRequest;
 // Allows injecting Dto instances into controller methods.
 class DtoHandlerMethodArgumentResolver implements DtoArgumentResolver {
     private final static String DTO_CLASS_PARAMETER_NAME = "dto";
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return Dto.class.equals(parameter.getParameterType());

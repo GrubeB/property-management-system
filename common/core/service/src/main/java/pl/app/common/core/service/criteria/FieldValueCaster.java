@@ -17,7 +17,7 @@ public class FieldValueCaster {
 
         if (fieldType == String.class) {
             return value;
-        }else if (fieldType == UUID.class) {
+        } else if (fieldType == UUID.class) {
             return UUID.fromString(value);
         }
         // primitive values and wrappers

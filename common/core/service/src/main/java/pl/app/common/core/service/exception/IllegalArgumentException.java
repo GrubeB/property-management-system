@@ -4,6 +4,7 @@ public class IllegalArgumentException extends RuntimeException {
     public IllegalArgumentException() {
         super("method has been invoked with illegal or inappropriate argument");
     }
+
     public IllegalArgumentException(String message) {
         super(message);
     }

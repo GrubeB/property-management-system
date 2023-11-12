@@ -37,6 +37,7 @@ class SearchCriteriaHandlerMethodArgumentResolver implements SearchCriteriaArgum
             return new SearchCriteria();
         }
     }
+
     private String getRequestBody(HttpServletRequest httpServletRequest) throws IOException {
         return httpServletRequest.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
     }

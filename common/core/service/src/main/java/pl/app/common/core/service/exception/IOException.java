@@ -4,6 +4,7 @@ public class IOException extends java.io.IOException {
     public IOException() {
         super("IOException");
     }
+
     public IOException(String message) {
         super(message);
     }

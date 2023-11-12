@@ -3,7 +3,7 @@ package pl.app.common.core.service.path_variables;
 import java.util.Map;
 
 public class PathVariablesRequest implements PathVariables {
-    private Map<String, String> variables;
+    private final Map<String, String> variables;
 
     @Override
     public Map<String, String> getVariables() {

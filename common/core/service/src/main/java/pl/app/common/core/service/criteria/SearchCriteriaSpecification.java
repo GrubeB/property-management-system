@@ -17,12 +17,12 @@ public class SearchCriteriaSpecification<T> implements Specification<T> {
 
     @Override
     public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-        return getSpecification().toPredicate(root,query,cb);
+        return getSpecification().toPredicate(root, query, cb);
     }
 
     public Specification<T> getSpecification() {
         Specification<T> specification = Specification.where((Specification<T>) (root, query, criteriaBuilder) -> criteriaBuilder.equal(criteriaBuilder.literal(Boolean.TRUE), Boolean.TRUE)); // always true
-        if(Objects.nonNull(this.searchCriteria)){
+        if (Objects.nonNull(this.searchCriteria)) {
             for (SearchCriteriaItem criteriaItem : this.searchCriteria.getCriteria()) {
                 specification = specification.and(criteriaItem.getOperator().build(criteriaItem));
             }

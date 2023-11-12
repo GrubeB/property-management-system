@@ -10,9 +10,7 @@ import pl.app.common.core.model.ParentEntity;
 import pl.app.property.property.model.PropertyEntity;
 
 import java.time.Instant;
-import java.util.LinkedHashSet;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -53,6 +51,14 @@ public class GuestEntity extends AbstractEntity<UUID> implements
     @ToString.Exclude
     @JsonIgnore
     private PropertyEntity property;
+
+    public void setAddress(GuestAddressEntity address) {
+        this.address = null;
+        if (address != null) {
+            address.setGuest(this);
+            this.address = address;
+        }
+    }
 
     @Override
     public UUID getId() {

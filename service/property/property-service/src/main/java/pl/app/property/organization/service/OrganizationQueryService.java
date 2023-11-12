@@ -5,5 +5,6 @@ import pl.app.property.organization.model.OrganizationEntity;
 
 import java.util.UUID;
 
-public interface OrganizationQueryService extends QueryService.Fetchable<UUID, OrganizationEntity> {
+public interface OrganizationQueryService extends
+        QueryService.Full<UUID, OrganizationEntity> {
 }

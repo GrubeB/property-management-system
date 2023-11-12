@@ -1,13 +1,13 @@
 package pl.app.property.accommodation_price_policy.service;
 
 
-import pl.app.common.core.service.SimpleCommandService;
+import pl.app.common.core.service.CommandService;
 import pl.app.property.accommodation_price_policy.model.AccommodationTypePriceDayOfTheWeekPolicyEntity;
 
 import java.util.UUID;
 
 public interface AccommodationTypePriceDayOfTheWeekPolicyService extends
-        SimpleCommandService.CreatableWithParent<UUID, AccommodationTypePriceDayOfTheWeekPolicyEntity>,
-        SimpleCommandService.Updatable<UUID, AccommodationTypePriceDayOfTheWeekPolicyEntity>,
-        SimpleCommandService.DeletableById<UUID, AccommodationTypePriceDayOfTheWeekPolicyEntity> {
+        CommandService.Creatable.CreatableWithParent<UUID, AccommodationTypePriceDayOfTheWeekPolicyEntity, UUID>,
+        CommandService.Updatable.UpdatableWithParent<UUID, AccommodationTypePriceDayOfTheWeekPolicyEntity, UUID>,
+        CommandService.Deletable.SimpleDeletable<UUID, AccommodationTypePriceDayOfTheWeekPolicyEntity> {
 }

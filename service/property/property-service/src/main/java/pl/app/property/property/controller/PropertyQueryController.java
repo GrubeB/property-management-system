@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Getter
 public class PropertyQueryController implements
-        QueryController.DtoFetchable<UUID, PropertyEntity> {
+        QueryController.DtoFetchable.Full<UUID, PropertyEntity> {
     public static final String resourceName = "properties";
     public static final String resourcePath = "/api/v1/" + resourceName;
 

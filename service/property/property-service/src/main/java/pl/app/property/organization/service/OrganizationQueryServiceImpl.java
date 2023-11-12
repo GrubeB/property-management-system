@@ -4,13 +4,25 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.app.common.core.web.dto.BaseDto;
+import pl.app.property.organization.dto.OrganizationDto;
+import pl.app.property.organization.mapper.OrganizationMapper;
 import pl.app.property.organization.persistence.OrganizationRepository;
+
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Getter
-class OrganizationQueryServiceImpl implements OrganizationQueryService {
+class OrganizationQueryServiceImpl implements
+        OrganizationQueryService {
     private final OrganizationRepository repository;
     private final OrganizationRepository specificationRepository;
+    private final OrganizationMapper mapper;
+
+    private final Map<String, Class<?>> supportedDtoClasses = Map.of(
+            "OrganizationDto", OrganizationDto.class,
+            "BaseDto", BaseDto.class
+    );
 }

@@ -16,7 +16,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Getter
 public class AmenityByPropertyQueryController implements
-        QueryController.FetchableWithFilter<UUID, PropertyAmenityEntity> {
+        QueryController.DtoFetchable.Full<UUID, PropertyAmenityEntity> {
     public static final String resourceName = "amenities";
     public static final String resourcePath = "/api/v1/organizations/{organizationId}/properties/{propertyId}/" + resourceName;
     private final Map<String, String> parentFilterMap = Map.of(

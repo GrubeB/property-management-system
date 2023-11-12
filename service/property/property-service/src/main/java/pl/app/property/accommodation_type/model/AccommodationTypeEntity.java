@@ -67,16 +67,20 @@ public class AccommodationTypeEntity extends AbstractEntity<UUID> implements
 
     public void setBeds(Set<AccommodationTypeBedEntity> beds) {
         this.beds.clear();
-        beds.stream()
-                .peek(e -> e.setAccommodationType(this))
-                .forEach(this.beds::add);
+        if (beds != null) {
+            beds.stream()
+                    .peek(e -> e.setAccommodationType(this))
+                    .forEach(this.beds::add);
+        }
     }
 
     public void setImages(Set<AccommodationTypeImageEntity> images) {
         this.images.clear();
-        images.stream()
-                .peek(e -> e.setAccommodationType(this))
-                .forEach(this.images::add);
+        if (images != null) {
+            images.stream()
+                    .peek(e -> e.setAccommodationType(this))
+                    .forEach(this.images::add);
+        }
     }
 
     @Override

@@ -57,6 +57,7 @@ public class UserController {
                 .noContent()
                 .build();
     }
+
     @PostMapping(path = addOrganizationToUserPath)
     public ResponseEntity<Void> addOrganizationToUser(@RequestBody AddOrganizationToUserCommand command) {
         addOrganizationToUserUseCase.addOrganizationToUser(command);
@@ -64,6 +65,7 @@ public class UserController {
                 .noContent()
                 .build();
     }
+
     @PostMapping(path = removeOrganizationFromUserPath)
     public ResponseEntity<Void> removeOrganizationFromUser(@RequestBody RemoveOrganizationFromUserCommand command) {
         removeOrganizationFromUserUseCase.removeOrganizationFromUser(command);
@@ -71,6 +73,7 @@ public class UserController {
                 .noContent()
                 .build();
     }
+
     @PostMapping(path = addPropertyToUserPath)
     public ResponseEntity<Void> addPropertyToUser(@RequestBody AddPropertyToUserCommand command) {
         addPropertyToUserUseCase.addPropertyToUser(command);
@@ -78,6 +81,7 @@ public class UserController {
                 .noContent()
                 .build();
     }
+
     @PostMapping(path = removePropertyFromUserPath)
     public ResponseEntity<Void> removePropertyFromUser(@RequestBody RemovePropertyFromUserCommand command) {
         removePropertyFromUserUseCase.removePropertyFromUser(command);

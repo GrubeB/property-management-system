@@ -5,6 +5,7 @@ import pl.app.property.payment.adapter.out.persistence.model.PaymentEntity;
 
 import java.util.UUID;
 
-public interface PaymentQueryService extends QueryService.Fetchable<UUID, PaymentEntity> {
+public interface PaymentQueryService extends
+        QueryService.Full<UUID, PaymentEntity> {
 
 }

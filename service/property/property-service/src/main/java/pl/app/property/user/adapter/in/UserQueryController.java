@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Getter
 public class UserQueryController implements
-        QueryController.DtoFetchable<UUID, UserEntity> {
+        QueryController.DtoFetchable.Full<UUID, UserEntity> {
     public static final String resourceName = "users";
     public static final String resourcePath = "/api/v1/" + resourceName;
     private final UserQueryService service;

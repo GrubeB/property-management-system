@@ -4,10 +4,14 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.app.common.core.web.dto.BaseDto;
 import pl.app.property.accommodation_availability.adapter.out.persistence.model.AccommodationTypeAvailabilityEntity;
 import pl.app.property.accommodation_availability.adapter.out.persistence.repository.AccommodationTypeAvailabilityEntityRepository;
+import pl.app.property.accommodation_availability.adapter.out.query.dto.AccommodationTypeAvailabilityDto;
+import pl.app.property.accommodation_availability.adapter.out.query.mapper.AccommodationTypeAvailabilityQueryMapper;
 import pl.app.property.accommodation_availability.application.domain.exception.AccommodationAvailabilityException;
 
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -18,6 +22,12 @@ class AccommodationTypeAvailabilityQueryServiceImpl implements
         AccommodationTypeAvailabilityQueryService {
     private final AccommodationTypeAvailabilityEntityRepository repository;
     private final AccommodationTypeAvailabilityEntityRepository specificationRepository;
+    private final AccommodationTypeAvailabilityQueryMapper mapper;
+
+    private final Map<String, Class<?>> supportedDtoClasses = Map.of(
+            "AccommodationTypeAvailabilityDto", AccommodationTypeAvailabilityDto.class,
+            "BaseDto", BaseDto.class
+    );
 
     @Override
     public AccommodationTypeAvailabilityEntity fetchByAccommodationTypeId(UUID accommodationTypeId) {

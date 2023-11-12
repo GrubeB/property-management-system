@@ -5,6 +5,6 @@ import pl.app.property.registration.adapter.out.persistence.model.RegistrationEn
 
 import java.util.UUID;
 
-public interface RegistrationQueryService extends QueryService.DtoFetchable<UUID, RegistrationEntity> {
-
+public interface RegistrationQueryService extends
+        QueryService.Full<UUID, RegistrationEntity> {
 }

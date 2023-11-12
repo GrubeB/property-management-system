@@ -16,7 +16,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Getter
 public class AccommodationTypePriceDayOfTheWeekPolicyByPropertyQueryController implements
-        QueryController.FetchableWithFilter<UUID, AccommodationTypePriceDayOfTheWeekPolicyEntity> {
+        QueryController.SimpleFetchableWithFilter.Full<UUID, AccommodationTypePriceDayOfTheWeekPolicyEntity> {
     public static final String resourceName = "day-of-week-policies";
     public static final String resourcePath = "/api/v1/organizations/{organizationId}/properties/{propertyId}/accommodation-type-price-policies/" + resourceName;
 

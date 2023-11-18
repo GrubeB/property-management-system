@@ -3,7 +3,7 @@ package pl.app.common.security.authorozation_method_security;
 import org.springframework.security.access.expression.SecurityExpressionRoot;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionOperations;
 import org.springframework.security.core.Authentication;
-import pl.app.common.shared.authorization.PermissionLevel;
+import pl.app.common.shared.authorization.PermissionDomainObjectType;
 
 import java.io.Serializable;
 
@@ -21,15 +21,15 @@ public class CustomMethodSecurityExpressionRoot extends SecurityExpressionRoot i
     }
 
     public boolean hasRootPermission(Object permission) {
-        return hasPermission(null, PermissionLevel.ROOT.name(), permission);
+        return hasPermission(null, PermissionDomainObjectType.ROOT.name(), permission);
     }
 
     public boolean hasOrganizationPermission(Serializable targetId, Object permission) {
-        return hasPermission(targetId, PermissionLevel.ORGANIZATION.name(), permission);
+        return hasPermission(targetId, PermissionDomainObjectType.ORGANIZATION.name(), permission);
     }
 
     public boolean hasPropertyPermission(Serializable targetId, Object permission) {
-        return hasPermission(targetId, PermissionLevel.PROPERTY.name(), permission);
+        return hasPermission(targetId, PermissionDomainObjectType.PROPERTY.name(), permission);
     }
 
     @Override

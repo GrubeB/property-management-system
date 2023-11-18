@@ -2,7 +2,7 @@ package pl.app.property.user.application.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import pl.app.common.shared.authorization.PermissionLevel;
+import pl.app.common.shared.authorization.PermissionDomainObjectType;
 import pl.app.common.shared.authorization.PermissionName;
 
 import java.util.ArrayList;
@@ -80,12 +80,12 @@ public class User {
     }
 
     public void addPrivilege(String permissionName, String permissionLevel, UUID domainObjectId) {
-        Permission permission = new Permission(PermissionName.valueOf(permissionName), PermissionLevel.valueOf(permissionLevel));
+        Permission permission = new Permission(PermissionName.valueOf(permissionName), PermissionDomainObjectType.valueOf(permissionLevel));
         addPrivilege(permission, domainObjectId);
     }
 
     public void removePrivilege(String permissionName, String permissionLevel, UUID domainObjectId) {
-        Permission permission = new Permission(PermissionName.valueOf(permissionName), PermissionLevel.valueOf(permissionLevel));
+        Permission permission = new Permission(PermissionName.valueOf(permissionName), PermissionDomainObjectType.valueOf(permissionLevel));
         removePrivilege(permission, domainObjectId);
     }
 
@@ -93,7 +93,7 @@ public class User {
         this.privileges.removeIf(privilege ->
                 Objects.equals(privilege.getDomainObjectId(), domainObjectId)
                         && Objects.equals(privilege.getPermission().getName(), permission.getName())
-                        && Objects.equals(privilege.getPermission().getPermissionLevel(), permission.getPermissionLevel())
+                        && Objects.equals(privilege.getPermission().getPermissionDomainObjectType(), permission.getPermissionDomainObjectType())
         );
     }
 
@@ -105,7 +105,7 @@ public class User {
         return this.privileges.stream()
                 .anyMatch(privilege -> Objects.equals(privilege.getDomainObjectId(), domainObjectId)
                         && Objects.equals(privilege.getPermission().getName(), permission.getName())
-                        && Objects.equals(privilege.getPermission().getPermissionLevel(), permission.getPermissionLevel())
+                        && Objects.equals(privilege.getPermission().getPermissionDomainObjectType(), permission.getPermissionDomainObjectType())
                 );
     }
 }

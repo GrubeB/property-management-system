@@ -2,7 +2,7 @@ package pl.app.common.security.authorozation_method_security;
 
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
-import pl.app.common.shared.authorization.PermissionLevel;
+import pl.app.common.shared.authorization.PermissionDomainObjectType;
 import pl.app.common.shared.authorization.PermissionName;
 
 import java.io.Serializable;
@@ -21,25 +21,25 @@ class CustomPermissionEvaluator implements PermissionEvaluator {
             return false;
         }
         if (targetId == null) {
-            return hasPrivilege(authentication, PermissionLevel.valueOf(permissionLevel), (PermissionName) permissionName);
+            return hasPrivilege(authentication, PermissionDomainObjectType.valueOf(permissionLevel), (PermissionName) permissionName);
         }
-        return hasPrivilege(authentication, PermissionLevel.valueOf(permissionLevel), (PermissionName) permissionName, (String) targetId);
+        return hasPrivilege(authentication, PermissionDomainObjectType.valueOf(permissionLevel), (PermissionName) permissionName, (String) targetId);
     }
 
-    private boolean hasPrivilege(Authentication authentication, PermissionLevel permissionLevel, PermissionName permissionName, String targetId) {
+    private boolean hasPrivilege(Authentication authentication, PermissionDomainObjectType permissionDomainObjectType, PermissionName permissionName, String targetId) {
         return authentication.getAuthorities().stream().anyMatch(grantedAuthority ->
                 grantedAuthority instanceof DomainObjectGrandAuthority domainObjectGrandAuthority &&
                         domainObjectGrandAuthority.getPermissionName().equals(permissionName.name()) &&
                         domainObjectGrandAuthority.getDomainObjectId().equals(targetId) &&
-                        domainObjectGrandAuthority.getPermissionLevel().equals(permissionLevel.name()));
+                        domainObjectGrandAuthority.getDomainObjectType().equals(permissionDomainObjectType.name()));
     }
 
-    private boolean hasPrivilege(Authentication authentication, PermissionLevel permissionLevel, PermissionName permissionName) {
+    private boolean hasPrivilege(Authentication authentication, PermissionDomainObjectType permissionDomainObjectType, PermissionName permissionName) {
         return authentication.getAuthorities().stream().anyMatch(grantedAuthority ->
                 grantedAuthority instanceof DomainObjectGrandAuthority domainObjectGrandAuthority &&
                         domainObjectGrandAuthority.getPermissionName().equals(permissionName.name()) &&
                         (domainObjectGrandAuthority.getDomainObjectId() == null ||
                                 domainObjectGrandAuthority.getDomainObjectId().isBlank()) &&
-                        domainObjectGrandAuthority.getPermissionLevel().equals(permissionLevel.name()));
+                        domainObjectGrandAuthority.getDomainObjectType().equals(permissionDomainObjectType.name()));
     }
 }

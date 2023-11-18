@@ -52,7 +52,7 @@ public class UserMapper {
     }
 
     public PermissionEntity mapToPermissionEntity(Permission domain) {
-        return permissionRepository.findByPermissionNameAndPermissionName(domain.getName(), domain.getPermissionLevel())
+        return permissionRepository.findByPermissionNameAndPermissionName(domain.getName(), domain.getPermissionDomainObjectType())
                 .orElseThrow(() -> UserException.NotFoundPermissionException.fromName(domain.getName().toString()));
     }
 
@@ -87,7 +87,7 @@ public class UserMapper {
     public Permission mapToPermission(PermissionEntity entity) {
         return new Permission(
                 entity.getPermissionName(),
-                entity.getPermissionLevel()
+                entity.getPermissionDomainObjectType()
         );
     }
 }

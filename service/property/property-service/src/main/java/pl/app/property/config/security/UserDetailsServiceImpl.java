@@ -34,7 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return privileges.stream()
                 .map(p -> new DomainObjectGrandAuthority(
                         p.getDomainObjectId() != null ? p.getDomainObjectId().toString() : "",
-                        p.getPermission().getPermissionLevel().name(),
+                        p.getPermission().getPermissionDomainObjectType().name(),
                         p.getPermission().getName().name())
                 ).toList();
     }

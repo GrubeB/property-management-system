@@ -5,7 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
 import pl.app.common.core.model.AbstractEntity;
-import pl.app.common.shared.authorization.PermissionLevel;
+import pl.app.common.shared.authorization.PermissionDomainObjectType;
 import pl.app.common.shared.authorization.PermissionName;
 
 import java.util.Objects;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "t_permission", uniqueConstraints = {
-        @UniqueConstraint(name = "uc_t_permission_permission_name_and_permission_level", columnNames = {"permission_name", "permission_level"})
+        @UniqueConstraint(name = "uc_t_permission_permission_name_and_permission_level", columnNames = {"permission_name", "permission_domain_object_type"})
 })
 public class PermissionEntity extends AbstractEntity<UUID> {
     @Id
@@ -28,8 +28,8 @@ public class PermissionEntity extends AbstractEntity<UUID> {
     private UUID permissionId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "permission_level", nullable = false)
-    private PermissionLevel permissionLevel;
+    @Column(name = "permission_domain_object_type", nullable = false)
+    private PermissionDomainObjectType permissionDomainObjectType;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "permission_name", nullable = false)

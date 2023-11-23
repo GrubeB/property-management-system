@@ -53,11 +53,15 @@ public class CustomAuthorizationManager implements AuthorizationManager<RequestA
     public static CustomAuthorizationManager hasOrganizationPermission(PermissionName permissionName) {
         return new CustomAuthorizationManager(PermissionDomainObjectType.ORGANIZATION, permissionName, "organizationId");
     }
-
+    public static CustomAuthorizationManager hasOrganizationPermission(PermissionName permissionName, String targetIdVariableName) {
+        return new CustomAuthorizationManager(PermissionDomainObjectType.ORGANIZATION, permissionName, targetIdVariableName);
+    }
     public static CustomAuthorizationManager hasPropertyPermission(PermissionName permissionName) {
         return new CustomAuthorizationManager(PermissionDomainObjectType.PROPERTY, permissionName, "propertyId");
     }
-
+    public static CustomAuthorizationManager hasPropertyPermission(PermissionName permissionName, String targetIdVariableName) {
+        return new CustomAuthorizationManager(PermissionDomainObjectType.PROPERTY, permissionName, targetIdVariableName);
+    }
     public static CustomAuthorizationManager anyOf(CustomAuthorizationManager... all) {
         return new CustomAuthorizationManager(GroupAuthorizationManagerType.ONE, all);
     }

@@ -64,7 +64,7 @@ class TokenServiceImpl implements TokenService {
             final String userId = extractClaim(token, claims -> claims.get(USER_ID_KEY, String.class));
             Object authoritiesObject = extractClaim(token, claims -> claims.get(AUTHORITIES_KEY, Object.class));
             final List<? extends GrantedAuthority> authorities = tokenGrantedAuthoritySerializer.deserialize(authoritiesObject);
-            final CustomUserDetails userDetails = new CustomUserDetails(userId, userEmail, authorities);
+            final CustomUserDetails userDetails = new CustomUserDetails(UUID.fromString(userId), userEmail, authorities);
             var authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
             authenticationToken.setDetails(new SessionDetails(Collections.singletonMap(ACCESS_TOKEN, token)));
             return authenticationToken;

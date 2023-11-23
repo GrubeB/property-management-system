@@ -30,8 +30,6 @@ public class UserService implements
     public UUID createUser(CreateUserCommand command) {
         String encodedPassword = passwordEncoder.encode(command.getPassword());
         User user = new User(command.getEmail(), encodedPassword);
-        user.addOrganization(command.getOrganizationId());
-        command.getPrivileges().forEach(p -> user.addPrivilege(p.getPermissionName(), p.getPermissionLevel(), p.getDomainObjectId()));
         return saveUserPort.saveUser(user);
     }
 
@@ -43,14 +41,14 @@ public class UserService implements
     @Override
     public void addPrivilege(AddPrivilegeCommand command) {
         User user = loadUserPort.loadUser(command.getUserId());
-        command.getPrivileges().forEach(p -> user.addPrivilege(p.getPermissionName(), p.getPermissionLevel(), p.getDomainObjectId()));
+        command.getPrivileges().forEach(p -> user.addPrivilege(p.getPermissionName(), p.getPermissionObjectType(), p.getDomainObjectId()));
         saveUserPort.saveUser(user);
     }
 
     @Override
     public void removePrivilege(RemovePrivilegeCommand command) {
         User user = loadUserPort.loadUser(command.getUserId());
-        command.getPrivileges().forEach(p -> user.removePrivilege(p.getPermissionName(), p.getPermissionLevel(), p.getDomainObjectId()));
+        command.getPrivileges().forEach(p -> user.removePrivilege(p.getPermissionName(), p.getPermissionObjectType(), p.getDomainObjectId()));
         saveUserPort.saveUser(user);
     }
 

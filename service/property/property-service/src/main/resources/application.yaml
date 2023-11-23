@@ -1,5 +1,6 @@
 server:
   port: 9006
+  max-http-header-size: 50KB
 
 app:
   mail:

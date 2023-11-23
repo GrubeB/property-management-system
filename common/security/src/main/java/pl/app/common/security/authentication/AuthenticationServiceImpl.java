@@ -10,6 +10,7 @@ import pl.app.common.security.user_details.SessionDetails;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
@@ -46,7 +47,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public Optional<String> getCurrentUserId() {
+    public Optional<UUID> getCurrentUserId() {
         Authentication authentication = getCurrentAuthentication();
         if (Objects.nonNull(authentication)) {
             Object principal = authentication.getPrincipal();

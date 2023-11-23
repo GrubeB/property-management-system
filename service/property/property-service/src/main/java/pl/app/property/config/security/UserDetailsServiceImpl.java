@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = fetchUserUseCase.fetchUser(new FetchUserCommand(email));
-        return new CustomUserDetails(user.getUserId().toString(), user.getEmail(), user.getPassword(), toGrantedAuthority(user.getPrivileges()));
+        return new CustomUserDetails(user.getUserId(), user.getEmail(), user.getPassword(), toGrantedAuthority(user.getPrivileges()));
     }
 
     private static List<? extends GrantedAuthority> toGrantedAuthority(List<Privilege> privileges) {

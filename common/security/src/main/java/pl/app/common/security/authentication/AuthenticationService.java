@@ -4,6 +4,7 @@ import org.springframework.security.core.Authentication;
 import pl.app.common.security.auditing.AuthenticationProvider;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public interface AuthenticationService extends AuthenticationProvider {
     void setCurrentAuthentication(Authentication authentication);
@@ -14,7 +15,7 @@ public interface AuthenticationService extends AuthenticationProvider {
 
     Optional<String> getCurrentUserName();
 
-    Optional<String> getCurrentUserId();
+    Optional<UUID> getCurrentUserId();
 
     Optional<String> getAccessToken();
 }

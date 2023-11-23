@@ -14,15 +14,4 @@ import java.util.UUID;
 public class CreateUserCommand implements Serializable {
     private String email;
     private String password;
-    private UUID organizationId;
-    private List<Privilege> privileges;
-
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Privilege {
-        private UUID domainObjectId;
-        private String permissionLevel;
-        private String permissionName;
-    }
 }

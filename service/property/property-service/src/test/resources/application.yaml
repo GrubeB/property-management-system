@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    replace: none
+    url: jdbc:tc:postgresql:13:///postgres?TC_INITSCRIPT=sql/init-db.sql
+    hikari:
+      max-lifetime: 30000
+    testWhileIdle: true
+    test-on-borrow: true
+
+#logging:
+#  level:
+#    com.zaxxer.hikari: DEBUG

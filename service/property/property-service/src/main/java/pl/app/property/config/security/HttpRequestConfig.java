@@ -18,6 +18,7 @@ import pl.app.property.organization.controller.OrganizationQueryController;
 import pl.app.property.property.controller.PropertyByOrganizationQueryController;
 import pl.app.property.property.controller.PropertyController;
 import pl.app.property.property.controller.PropertyQueryController;
+import pl.app.property.user.adapter.in.UserByOrganizationController;
 import pl.app.property.user.adapter.in.UserByOrganizationQueryController;
 import pl.app.property.user.adapter.in.UserController;
 import pl.app.property.user.adapter.in.UserQueryController;
@@ -53,7 +54,7 @@ public class HttpRequestConfig {
                         )
                 )
                 .requestMatchers(and(or(POST), or(UserController.resourcePath + UserController.createUserPath))).permitAll()
-                .requestMatchers(and(or(POST, PUT, DELETE), or(UserController.resourcePath, UserController.resourcePath + all))).access(
+                .requestMatchers(and(or(POST, PUT, DELETE), or(UserByOrganizationController.resourcePath, UserByOrganizationController.resourcePath + all))).access(
                         anyOf(
                                 hasRootPermission(USER_WRITE),
                                 hasOrganizationPermission(USER_WRITE)

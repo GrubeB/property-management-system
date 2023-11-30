@@ -10,9 +10,9 @@ import java.net.http.HttpClient;
 
 @Configuration
 public class MailConfig {
-    @Value("${app.mail.base-url}")
+    @Value("${app.mail.base-url:http://localhost:8888}")
     private String sendMailServiceURI;
-    @Value("${spring.application.name}")
+    @Value("${spring.application.name:}")
     private String applicationName;
 
     @Bean

@@ -1,5 +1,6 @@
 package pl.app.property.property.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,10 +18,15 @@ import java.util.UUID;
 @NoArgsConstructor
 public class PropertyDto implements Serializable {
     private UUID propertyId;
+    @NotNull
     private PropertyType propertyType;
+    @NotNull
     private LocalTime checkInFromTime;
+    @NotNull
     private LocalTime checkInToTime;
+    @NotNull
     private LocalTime checkOutFromTime;
+    @NotNull
     private LocalTime checkOutToTime;
     private Set<PropertyImageDto> propertyImages;
     private PropertyDetailsDto propertyDetails;
@@ -41,9 +47,12 @@ public class PropertyDto implements Serializable {
     @NoArgsConstructor
     public static class PropertyDetailsDto implements Serializable {
         private UUID propertyDetailsId;
+        @NotNull
         private String name;
         private String email;
+        @NotNull
         private String phone;
+        @NotNull
         private String website;
         private String description;
         private PropertyAddressDto propertyAddress;

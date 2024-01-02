@@ -16,11 +16,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Getter
 public class GuestByOrganizationQueryController implements
-        QueryController.FetchableWithFilter<UUID, GuestEntity> {
+        QueryController.DtoFetchableWithFilter.Full<UUID, GuestEntity> {
     public static final String resourceName = "guests";
     public static final String resourcePath = "/api/v1/organizations/{organizationId}/" + resourceName;
+
     private final Map<String, String> parentFilterMap = Map.of(
             "organizationId", "property.organization.organizationId"
     );
+
     public final GuestQueryService service;
 }

@@ -10,7 +10,7 @@ import pl.app.property.accommodation.application.domain.exception.AccommodationE
 import pl.app.property.accommodation.application.domain.model.Accommodation;
 import pl.app.property.accommodation.application.port.out.LoadAccommodationPort;
 import pl.app.property.accommodation.application.port.out.RemoveAccommodationPort;
-import pl.app.property.accommodation.application.port.out.SaveRegistrationPort;
+import pl.app.property.accommodation.application.port.out.SaveAccommodationPort;
 
 import java.util.UUID;
 
@@ -20,7 +20,7 @@ import java.util.UUID;
 public class AccommodationPersistenceAdapter implements
         LoadAccommodationPort,
         RemoveAccommodationPort,
-        SaveRegistrationPort {
+        SaveAccommodationPort {
 
     private final AccommodationMapper mapper;
     private final AccommodationRepository repository;

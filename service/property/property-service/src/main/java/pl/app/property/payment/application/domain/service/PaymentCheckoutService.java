@@ -10,14 +10,12 @@ import org.springframework.stereotype.Service;
 import pl.app.property.config.domain.WebAddressService;
 import pl.app.property.payment.adapter.in.PaymentController;
 import pl.app.property.payment.application.domain.model.Payment;
+import pl.app.property.payment.application.domain.model.StripePayment;
 import pl.app.property.payment.application.port.in.CreatePaymentCheckoutCommand;
 import pl.app.property.payment.application.port.in.CreatePaymentCheckoutUseCase;
 import pl.app.property.payment.application.port.in.PaymentCheckoutFailedUseCase;
 import pl.app.property.payment.application.port.in.PaymentCheckoutSuccessUseCase;
-import pl.app.property.payment.application.port.out.LoadPaymentPort;
-import pl.app.property.payment.application.port.out.SavePaymentPort;
-import pl.app.property.payment.application.port.out.UpdateLedgerPort;
-import pl.app.property.payment.application.port.out.UpdateWalletPort;
+import pl.app.property.payment.application.port.out.*;
 import pl.app.property.registration_folio.application.port.in.AddPaymentToPartyFolioCommand;
 import pl.app.property.registration_folio.application.port.in.AddPaymentToPartyFolioUseCase;
 import pl.app.property.reservation_folio.application.port.in.AddPaymentCommand;
@@ -35,6 +33,8 @@ class PaymentCheckoutService implements
         PaymentCheckoutFailedUseCase,
         PaymentCheckoutSuccessUseCase {
     private final SavePaymentPort savePaymentPort;
+    private final SaveStripePaymentPort saveStripePaymentPort;
+    private final LoadStripePaymentPort loadStripePaymentPort;
     private final LoadPaymentPort loadPaymentPort;
     private final UpdateLedgerPort updateLedgerPort;
     private final UpdateWalletPort updateWalletPort;
@@ -81,25 +81,29 @@ class PaymentCheckoutService implements
         try {
             Session session = Session.create(params);
             payment.markAllPaymentOrdersAsExecuting();
-            savePaymentPort.savePayment(payment);
+            StripePayment stripePayment = new StripePayment(payment, session.getId());
+            saveStripePaymentPort.savePayment(stripePayment);
             return session;
         } catch (StripeException e) {
             throw new RuntimeException(e);
         }
     }
 
+    @Override
     public void checkoutSessionFailed(UUID paymentId) {
-        Payment payment = loadPaymentPort.loadPayment(paymentId);
-        payment.markAllPaymentOrdersAsFailed();
-        savePaymentPort.savePayment(payment);
+        StripePayment stripePayment = loadStripePaymentPort.loadStripePayment(paymentId);
+        retrievePaymentIntent(stripePayment);
+        stripePayment.getPayment().markAllPaymentOrdersAsFailed();
+        saveStripePaymentPort.savePayment(stripePayment);
     }
 
     @Override
     public void checkoutSessionSuccess(UUID paymentId) {
-        Payment payment = loadPaymentPort.loadPayment(paymentId);
+        StripePayment stripePayment = loadStripePaymentPort.loadStripePayment(paymentId);
+        Payment payment = stripePayment.getPayment();
+        retrievePaymentIntent(stripePayment);
         payment.markAllPaymentOrdersAsPaid(updateLedgerPort, updateWalletPort);
-        savePaymentPort.savePayment(payment);
-
+        saveStripePaymentPort.savePayment(stripePayment);
         payment.getPaymentOrders().forEach(order -> {
             switch (order.getDomainObjectType()) {
                 case REGISTRATION_PARTY_FOLIO -> {
@@ -121,5 +125,14 @@ class PaymentCheckoutService implements
                 }
             }
         });
+    }
+
+    private void retrievePaymentIntent(StripePayment stripePayment) {
+        try {
+            Session session = Session.retrieve(stripePayment.getSessionCheckoutId());
+            stripePayment.setPaymentIntent(session.getPaymentIntent());
+        } catch (StripeException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

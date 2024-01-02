@@ -6,6 +6,6 @@ import pl.app.property.accommodation_price_policy.model.AccommodationTypePriceNu
 import java.util.UUID;
 
 public interface AccommodationTypePriceNumberOfDaysPolicyQueryService extends
-        QueryService.Fetchable<UUID, AccommodationTypePriceNumberOfDaysPolicyEntity> {
+        QueryService.SimpleFetchable.Full<UUID, AccommodationTypePriceNumberOfDaysPolicyEntity> {
     AccommodationTypePriceNumberOfDaysPolicyEntity fetchByPropertyIdId(UUID propertyId);
 }

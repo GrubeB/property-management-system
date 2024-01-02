@@ -11,6 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ReservationFolioCharge {
     private UUID chargeId;
+    private UUID objectId;
     private ReservationFolioChargeType type;
     private String name;
     private BigDecimal amount;
@@ -18,8 +19,9 @@ public class ReservationFolioCharge {
     private Instant date;
     private Boolean shouldByPaidBeforeRegistration;
 
-    public ReservationFolioCharge(ReservationFolioChargeType type, String name, BigDecimal amount, String current, Boolean shouldByPaidBeforeRegistration) {
+    public ReservationFolioCharge(UUID objectId, ReservationFolioChargeType type, String name, BigDecimal amount, String current, Boolean shouldByPaidBeforeRegistration) {
         this.chargeId = UUID.randomUUID();
+        this.objectId = objectId;
         this.type = type;
         this.name = name;
         this.amount = amount;

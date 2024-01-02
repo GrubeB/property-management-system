@@ -43,4 +43,8 @@ public class Payment {
     public void markAllPaymentOrdersAsFailed() {
         this.paymentOrders.forEach(PaymentOrder::markAsFailed);
     }
+
+    public void markAllPaymentOrdersAsRefunded() {
+        this.paymentOrders.forEach(PaymentOrder::markAsRefunded);
+    }
 }

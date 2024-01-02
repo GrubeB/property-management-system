@@ -16,6 +16,7 @@ public class AddChargeToPartyFolioCommand implements Serializable {
     private UUID registrationFolioId;
     private UUID partyId;
 
+    private UUID objectId;
     private RegistrationPartyFolioChargeType type;
     private String name;
     private BigDecimal amount;

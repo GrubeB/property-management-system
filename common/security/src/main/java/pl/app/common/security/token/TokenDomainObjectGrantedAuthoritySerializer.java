@@ -30,7 +30,7 @@ public class TokenDomainObjectGrantedAuthoritySerializer implements TokenGranted
         if (object instanceof ArrayList<?> list) {
             list.forEach(privilegeGroupObj -> {
                 if (privilegeGroupObj instanceof LinkedHashMap privilegeGroupMap) {
-                    String level = (String) privilegeGroupMap.get("level");
+                    String level = (String) privilegeGroupMap.get("domainObjectType");
                     ArrayList<?> privilegesList = (ArrayList<?>) privilegeGroupMap.get("privileges");
                     privilegesList.forEach(privilegeObj -> {
                         if (privilegeObj instanceof LinkedHashMap privilegeMap) {
@@ -58,18 +58,18 @@ public class TokenDomainObjectGrantedAuthoritySerializer implements TokenGranted
         }
 
         public void addPrivilege(DomainObjectGrandAuthority authority) {
-            Optional<PrivilegeGroup> group = getPrivateGroupByType(authority.getPermissionLevel());
+            Optional<PrivilegeGroup> group = getPrivateGroupByType(authority.getDomainObjectType());
             if (group.isPresent()) {
                 group.get().addPrivilege(authority);
             } else {
-                PrivilegeGroup newGroup = new PrivilegeGroup(authority.getPermissionLevel());
+                PrivilegeGroup newGroup = new PrivilegeGroup(authority.getDomainObjectType());
                 newGroup.addPrivilege(authority);
                 this.privilegeGroups.add(newGroup);
             }
         }
 
         private Optional<PrivilegeGroup> getPrivateGroupByType(String permissionLevel) {
-            return privilegeGroups.stream().filter(g -> g.level.equals(permissionLevel)).findAny();
+            return privilegeGroups.stream().filter(g -> g.domainObjectType.equals(permissionLevel)).findAny();
         }
     }
 
@@ -78,11 +78,11 @@ public class TokenDomainObjectGrantedAuthoritySerializer implements TokenGranted
     @AllArgsConstructor
     @NoArgsConstructor
     static class PrivilegeGroup implements Serializable {
-        private String level;
+        private String domainObjectType;
         private List<Privilege> privileges;
 
-        public PrivilegeGroup(String level) {
-            this.level = level;
+        public PrivilegeGroup(String domainObjectType) {
+            this.domainObjectType = domainObjectType;
             this.privileges = new ArrayList<>();
         }
 

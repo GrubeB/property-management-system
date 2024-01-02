@@ -4,6 +4,7 @@ public class ValidationException extends RuntimeException {
     public ValidationException() {
         super("Invalid object");
     }
+
     public ValidationException(String message) {
         super(message);
     }

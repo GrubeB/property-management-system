@@ -57,14 +57,19 @@ public class PropertyEntity extends AbstractEntity<UUID> implements
 
     public void setPropertyImages(Set<PropertyImageEntity> propertyImages) {
         this.propertyImages.clear();
-        propertyImages.stream()
-                .peek(ch -> ch.setProperty(this))
-                .forEach(this.propertyImages::add);
+        if (propertyImages != null) {
+            propertyImages.stream()
+                    .peek(ch -> ch.setProperty(this))
+                    .forEach(this.propertyImages::add);
+        }
     }
 
     public void setPropertyDetails(PropertyDetailsEntity propertyDetails) {
-        propertyDetails.setProperty(this);
-        this.propertyDetails = propertyDetails;
+        this.propertyDetails = null;
+        if (propertyDetails != null) {
+            propertyDetails.setProperty(this);
+            this.propertyDetails = propertyDetails;
+        }
     }
 
     @Override

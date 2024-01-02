@@ -11,13 +11,13 @@ import org.springframework.security.core.GrantedAuthority;
 @AllArgsConstructor
 public class DomainObjectGrandAuthority implements GrantedAuthority {
     private String domainObjectId;
-    private String permissionLevel;
+    private String domainObjectType;
     private String permissionName;
 
     @Override
     public String getAuthority() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(permissionLevel);
+        stringBuilder.append(domainObjectType);
         stringBuilder.append('_');
         stringBuilder.append(permissionName);
         stringBuilder.append('_');

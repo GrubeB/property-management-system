@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Email</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500;700&display=swap');
+    </style>
+    <style>
+
+        body {
+            background-color: #e3e3e3;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+        table {
+            border-collapse: separate;
+            width: 100%;
+        }
+        table td {
+            font-family: sans-serif;
+            font-size: 14px;
+            vertical-align: top;
+        }
+
+        .container {
+            display: block;
+            margin: 0 auto !important;
+            max-width: 600px;
+            padding: 10px;
+            width: 600px;
+        }
+        .content {
+            box-sizing: border-box;
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            padding: 10px;
+        }
+        .header {
+            clear: both;
+            margin-top: 10px;
+            text-align: center;
+            width: 100%;
+        }
+        .main {
+            background-color: whitesmoke;
+            text-align: center;
+            border-radius: 3px;
+            width: 100%;
+            font-weight: 500;
+            color:#595e60;
+        }
+        .wrapper {
+            box-sizing: border-box;
+            padding: 20px;
+        }
+        .main .header-text{
+            font-weight: 700;
+            font-size: 2.5em;
+            padding: 0.75em;
+        }
+
+        .main p{
+            margin: 20px;
+        }
+        .main .info-1{
+
+        }
+        .main .info-2{
+            font-size: 0.75em;
+        }
+        .main a{
+            background-color: rgb(247, 46, 53);
+            display: block;
+            width: 160px;
+            margin: 20px auto;
+            padding: 10px;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .footer {
+            clear: both;
+            margin-top: 10px;
+            text-align: center;
+            width: 100%;
+        }
+        .footer a{
+             text-decoration: none;
+             display: block;
+             color: black;
+             line-height: 50px;
+             height: 50px;
+             width: 100%;
+             text-align: center;
+         }
+
+        .content-block {
+            padding-bottom: 10px;
+            padding-top: 10px;
+        }
+
+        .preheader {
+            color: transparent;
+            display: none;
+            height: 0;
+            max-height: 0;
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            mso-hide: all;
+            visibility: hidden;
+            width: 0;
+        }
+    </style>
+</head>
+<body>
+<span class="preheader"><span data-th-text="${company_name}">CompanyName</span> -</span>
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
+    <tr>
+        <td>&nbsp;</td>
+        <td class="container">
+            <div class="content">
+                <div class="header">
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="content-block">
+                                <img src="logo.png" th:src="|cid:logo.png|"  />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <table role="presentation" class="main">
+                    <tr>
+                        <td class="wrapper">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td>
+                                        <p class="header-text">Płatność<br/></be> <span data-th-text="${payment_id}">2ad917aa-469f-11ee-be56-0242ac120002</span></p>
+                                        <p class="info-1">
+											Dokonałeś rezerwacji pokoju w hotelu
+                                            <span data-th-text="${hotel_name}">HotelName</span>,
+											<br>użyj poniższego linku by zacząć proces płatności.
+										</p>
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
+                                            <tbody>
+                                            <tr>
+                                                <td align="center">
+                                                    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td> <a data-th-href="${payment_link}">Zapłać</a> </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <p class="info-2">Jeśli nie zarządałeś tej operacji, możesz bezpieszcznie zignorować wiadomość.</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <div class="footer">
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="content-block">
+                                <a data-th-href="${company_url}"><span data-th-text="${company_url}">www.company.domain.pl</span></a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+</table>
+</body>
+</html>

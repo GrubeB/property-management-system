@@ -26,6 +26,8 @@ public class PartyFolioChargeEntity extends AbstractEntity<UUID> implements Root
     @Id
     @Column(name = "charge_id", nullable = false)
     private UUID chargeId;
+    @Column(name = "object_id")
+    private UUID objectId;
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private RegistrationPartyFolioChargeType type;

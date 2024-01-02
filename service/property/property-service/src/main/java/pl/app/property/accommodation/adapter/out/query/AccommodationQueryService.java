@@ -7,5 +7,5 @@ import pl.app.property.accommodation.adapter.out.persistence.model.Accommodation
 import java.util.UUID;
 
 public interface AccommodationQueryService extends
-        QueryService.Fetchable<UUID, AccommodationEntity> {
+        QueryService.Full<UUID, AccommodationEntity> {
 }

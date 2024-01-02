@@ -5,6 +5,7 @@ import pl.app.property.registration_folio.adapter.out.persistence.model.Registra
 
 import java.util.UUID;
 
-public interface RegistrationFolioQueryService extends QueryService.Fetchable<UUID, RegistrationFolioEntity> {
+public interface RegistrationFolioQueryService extends
+        QueryService.Full<UUID, RegistrationFolioEntity> {
 
 }

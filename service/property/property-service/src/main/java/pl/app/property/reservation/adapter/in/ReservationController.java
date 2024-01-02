@@ -64,8 +64,9 @@ public class ReservationController {
     }
 
     @PostMapping(path = finishReservationPath)
-    public ResponseEntity<UUID> finishReservation(@RequestBody FinishReservationCommand command) {
+    public ResponseEntity<String> finishReservation(@RequestBody FinishReservationCommand command) {
+        UUID registrationId = finishReservationUseCase.finishReservation(command);
         return ResponseEntity
-                .ok(finishReservationUseCase.finishReservation(command));
+                .ok(registrationId.toString());
     }
 }

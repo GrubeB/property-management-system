@@ -7,5 +7,5 @@ import java.util.UUID;
 
 
 public interface OrganizationAmenityQueryService extends
-        QueryService.Fetchable<UUID, OrganizationAmenityEntity> {
+        QueryService.Full<UUID, OrganizationAmenityEntity> {
 }

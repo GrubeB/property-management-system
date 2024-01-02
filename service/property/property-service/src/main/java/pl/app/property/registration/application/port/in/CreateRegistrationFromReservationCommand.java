@@ -3,6 +3,7 @@ package pl.app.property.registration.application.port.in;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.app.property.registration.application.domain.model.RegistrationSource;
 import pl.app.property.registration_folio.application.domain.model.RegistrationPartyFolioChargeType;
 
@@ -35,6 +36,7 @@ public class CreateRegistrationFromReservationCommand implements Serializable {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Payment {
+        private UUID paymentId;
         private UUID guestId;
         private BigDecimal amount;
         private String current;
@@ -42,13 +44,16 @@ public class CreateRegistrationFromReservationCommand implements Serializable {
     }
 
     @Getter
+    @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Charge {
+        private UUID chargeId;
+        private UUID objectId;
         private RegistrationPartyFolioChargeType type;
         private String name;
         private BigDecimal amount;
-        private String current;
+        private String currency;
         private Instant date;
     }
 
@@ -60,7 +65,6 @@ public class CreateRegistrationFromReservationCommand implements Serializable {
         private LocalDate endDate;
         private UUID accommodationTypeId;
         private UUID accommodationTypeReservationId;
-        private List<UUID> chargeIds;
     }
 
     @Getter

@@ -4,7 +4,7 @@ import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
-import pl.app.common.shared.authorization.PermissionLevel;
+import pl.app.common.shared.authorization.PermissionDomainObjectType;
 import pl.app.common.shared.authorization.PermissionName;
 
 import java.io.Serializable;
@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 
 public class CustomAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
     private final PermissionName permissionName;
-    private final PermissionLevel permissionLevel;
+    private final PermissionDomainObjectType permissionDomainObjectType;
     private final String targetIdVariableName;
 
     private final List<CustomAuthorizationManager> children;
@@ -28,8 +28,8 @@ public class CustomAuthorizationManager implements AuthorizationManager<RequestA
         ONE,
     }
 
-    CustomAuthorizationManager(PermissionLevel permissionLevel, PermissionName permissionName, String targetIdVariableName) {
-        this.permissionLevel = permissionLevel;
+    CustomAuthorizationManager(PermissionDomainObjectType permissionDomainObjectType, PermissionName permissionName, String targetIdVariableName) {
+        this.permissionDomainObjectType = permissionDomainObjectType;
         this.permissionName = permissionName;
         this.targetIdVariableName = targetIdVariableName;
         this.children = null;
@@ -38,7 +38,7 @@ public class CustomAuthorizationManager implements AuthorizationManager<RequestA
     }
 
     CustomAuthorizationManager(GroupAuthorizationManagerType type, CustomAuthorizationManager... children) {
-        this.permissionLevel = null;
+        this.permissionDomainObjectType = null;
         this.permissionName = null;
         this.targetIdVariableName = null;
         this.children = Stream.of(children).collect(Collectors.toList());
@@ -47,17 +47,21 @@ public class CustomAuthorizationManager implements AuthorizationManager<RequestA
     }
 
     public static CustomAuthorizationManager hasRootPermission(PermissionName permissionName) {
-        return new CustomAuthorizationManager(PermissionLevel.ROOT, permissionName, null);
+        return new CustomAuthorizationManager(PermissionDomainObjectType.ROOT, permissionName, null);
     }
 
     public static CustomAuthorizationManager hasOrganizationPermission(PermissionName permissionName) {
-        return new CustomAuthorizationManager(PermissionLevel.ORGANIZATION, permissionName, "organizationId");
+        return new CustomAuthorizationManager(PermissionDomainObjectType.ORGANIZATION, permissionName, "organizationId");
     }
-
+    public static CustomAuthorizationManager hasOrganizationPermission(PermissionName permissionName, String targetIdVariableName) {
+        return new CustomAuthorizationManager(PermissionDomainObjectType.ORGANIZATION, permissionName, targetIdVariableName);
+    }
     public static CustomAuthorizationManager hasPropertyPermission(PermissionName permissionName) {
-        return new CustomAuthorizationManager(PermissionLevel.PROPERTY, permissionName, "propertyId");
+        return new CustomAuthorizationManager(PermissionDomainObjectType.PROPERTY, permissionName, "propertyId");
     }
-
+    public static CustomAuthorizationManager hasPropertyPermission(PermissionName permissionName, String targetIdVariableName) {
+        return new CustomAuthorizationManager(PermissionDomainObjectType.PROPERTY, permissionName, targetIdVariableName);
+    }
     public static CustomAuthorizationManager anyOf(CustomAuthorizationManager... all) {
         return new CustomAuthorizationManager(GroupAuthorizationManagerType.ONE, all);
     }
@@ -85,9 +89,9 @@ public class CustomAuthorizationManager implements AuthorizationManager<RequestA
     private boolean checkOne(Supplier<Authentication> authentication, RequestAuthorizationContext context) {
         Serializable targetId = getTargetId(context);
         if (targetId == null) {
-            return authorizationService.hasPrivilege(authentication.get(), this.permissionLevel.name(), this.permissionName.name());
+            return authorizationService.hasPrivilege(authentication.get(), this.permissionDomainObjectType.name(), this.permissionName.name());
         } else {
-            return authorizationService.hasPrivilege(authentication.get(), targetId, this.permissionLevel.name(), this.permissionName.name());
+            return authorizationService.hasPrivilege(authentication.get(), targetId, this.permissionDomainObjectType.name(), this.permissionName.name());
         }
     }
 

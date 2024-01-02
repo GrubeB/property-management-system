@@ -2,6 +2,8 @@ package pl.app.property.user.application.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import pl.app.common.shared.authorization.PermissionDomainObjectType;
+import pl.app.common.shared.authorization.PermissionName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,28 +31,81 @@ public class User {
         this.properties = new ArrayList<>();
     }
 
-    public void addOrganization(UserOrganization organization) {
-        this.organizations.add(organization);
+    // ORGANIZATION
+
+    public void addOrganization(UUID organizationId) {
+        if (Objects.nonNull(organizationId) && !userIsInOrganization(organizationId)) {
+            this.organizations.add(new UserOrganization(organizationId));
+        }
     }
 
-    public void addProperty(UserProperty property) {
-        this.properties.add(property);
+    public void removeOrganization(UUID organizationId) {
+        if (Objects.nonNull(organizationId) && userIsInOrganization(organizationId)) {
+            this.organizations.removeIf(organization -> Objects.equals(organization.getOrganizationId(), organizationId));
+        }
     }
 
+    public boolean userIsInOrganization(UUID organizationId) {
+        return this.organizations.stream().anyMatch(organization -> Objects.equals(organization.getOrganizationId(), organizationId));
+    }
+
+    // PROPERTY
+
+    public void addProperty(UUID propertyId) {
+        if (Objects.nonNull(propertyId) && !userIsInProperty(propertyId)) {
+            this.properties.add(new UserProperty(propertyId));
+        }
+    }
+
+    public void removeProperty(UUID propertyId) {
+        if (Objects.nonNull(propertyId) && userIsInProperty(propertyId)) {
+            this.properties.removeIf(property -> Objects.equals(property.getPropertyId(), propertyId));
+        }
+    }
+
+    public boolean userIsInProperty(UUID propertyId) {
+        return this.properties.stream().anyMatch(property -> Objects.equals(property.getPropertyId(), propertyId));
+    }
+
+    // PRIVILEGE
     public void addPrivilege(Privilege privilege) {
-        this.privileges.add(privilege);
+        if (Objects.nonNull(privilege) && Objects.nonNull(privilege.getPermission()) && !userHasPrivilege(privilege)) {
+            this.privileges.add(privilege);
+        }
     }
 
     public void addPrivilege(Permission permission, UUID domainObjectId) {
         Privilege newPrivilege = new Privilege(permission, domainObjectId);
-        this.addPrivilege(newPrivilege);
+        addPrivilege(newPrivilege);
+    }
+
+    public void addPrivilege(String permissionName, String permissionLevel, UUID domainObjectId) {
+        Permission permission = new Permission(PermissionName.valueOf(permissionName), PermissionDomainObjectType.valueOf(permissionLevel));
+        addPrivilege(permission, domainObjectId);
+    }
+
+    public void removePrivilege(String permissionName, String permissionLevel, UUID domainObjectId) {
+        Permission permission = new Permission(PermissionName.valueOf(permissionName), PermissionDomainObjectType.valueOf(permissionLevel));
+        removePrivilege(permission, domainObjectId);
     }
 
     public void removePrivilege(Permission permission, UUID domainObjectId) {
-        this.privileges.removeIf(p ->
-                Objects.equals(p.getDomainObjectId(), domainObjectId)
-                        && Objects.equals(p.getPermission().getName(), permission.getName())
-                        && Objects.equals(p.getPermission().getPermissionLevel(), permission.getPermissionLevel())
+        this.privileges.removeIf(privilege ->
+                Objects.equals(privilege.getDomainObjectId(), domainObjectId)
+                        && Objects.equals(privilege.getPermission().getName(), permission.getName())
+                        && Objects.equals(privilege.getPermission().getPermissionDomainObjectType(), permission.getPermissionDomainObjectType())
         );
+    }
+
+    public boolean userHasPrivilege(Privilege privilege) {
+        return userHasPrivilege(privilege.getPermission(), privilege.getDomainObjectId());
+    }
+
+    public boolean userHasPrivilege(Permission permission, UUID domainObjectId) {
+        return this.privileges.stream()
+                .anyMatch(privilege -> Objects.equals(privilege.getDomainObjectId(), domainObjectId)
+                        && Objects.equals(privilege.getPermission().getName(), permission.getName())
+                        && Objects.equals(privilege.getPermission().getPermissionDomainObjectType(), permission.getPermissionDomainObjectType())
+                );
     }
 }

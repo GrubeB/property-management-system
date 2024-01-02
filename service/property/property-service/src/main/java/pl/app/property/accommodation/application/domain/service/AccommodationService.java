@@ -10,7 +10,7 @@ import pl.app.property.accommodation.application.port.in.RemoveAccommodationComm
 import pl.app.property.accommodation.application.port.in.RemoveAccommodationUseCase;
 import pl.app.property.accommodation.application.port.out.LoadAccommodationPort;
 import pl.app.property.accommodation.application.port.out.RemoveAccommodationPort;
-import pl.app.property.accommodation.application.port.out.SaveRegistrationPort;
+import pl.app.property.accommodation.application.port.out.SaveAccommodationPort;
 
 import java.util.UUID;
 
@@ -22,12 +22,12 @@ class AccommodationService implements
         RemoveAccommodationUseCase {
     private final LoadAccommodationPort loadAccommodationPort;
     private final RemoveAccommodationPort removeAccommodationPort;
-    private final SaveRegistrationPort saveRegistrationPort;
+    private final SaveAccommodationPort saveAccommodationPort;
 
     @Override
     public UUID addAccommodation(AddAccommodationCommand command) {
         Accommodation newAccommodation = new Accommodation(command.getName(), command.getDescription(), command.getAccommodationTypeId());
-        return saveRegistrationPort.saveAccommodation(newAccommodation);
+        return saveAccommodationPort.saveAccommodation(newAccommodation);
     }
 
     @Override

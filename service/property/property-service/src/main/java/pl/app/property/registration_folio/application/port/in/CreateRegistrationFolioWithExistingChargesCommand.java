@@ -15,6 +15,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateRegistrationFolioWithExistingChargesCommand implements Serializable {
+    private UUID registrationId;
+    private UUID propertyId;
     private List<PartyFolio> partyFolios;
 
     @Getter
@@ -40,6 +42,7 @@ public class CreateRegistrationFolioWithExistingChargesCommand implements Serial
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Charge {
+        private UUID objectId;
         private RegistrationPartyFolioChargeType type;
         private String name;
         private BigDecimal amount;

@@ -6,6 +6,7 @@ import pl.app.property.property.model.PropertyEntity;
 import java.util.List;
 import java.util.UUID;
 
-public interface PropertyQueryService extends QueryService.FullFetchable<UUID, PropertyEntity> {
+public interface PropertyQueryService extends
+        QueryService.Full<UUID, PropertyEntity> {
     List<UUID> fetchIdAll();
 }

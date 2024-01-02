@@ -7,5 +7,5 @@ import java.util.UUID;
 
 
 public interface ReservationFolioQueryService extends
-        QueryService.Fetchable<UUID, ReservationFolioEntity> {
+        QueryService.Full<UUID, ReservationFolioEntity> {
 }

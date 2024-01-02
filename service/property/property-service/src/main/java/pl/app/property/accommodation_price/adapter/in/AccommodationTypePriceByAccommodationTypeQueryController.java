@@ -16,7 +16,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Getter
 public class AccommodationTypePriceByAccommodationTypeQueryController implements
-        QueryController.FetchableWithFilter<UUID, AccommodationTypePriceEntity> {
+        QueryController.DtoFetchableWithFilter.Full<UUID, AccommodationTypePriceEntity> {
     public static final String resourceName = "accommodation-type-prices";
     public static final String resourcePath = "/api/v1/accommodation-types/{accommodationTypeId}/" + resourceName;
 

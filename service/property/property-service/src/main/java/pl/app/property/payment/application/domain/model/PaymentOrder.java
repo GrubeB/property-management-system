@@ -44,4 +44,8 @@ public class PaymentOrder {
     public void markAsFailed() {
         this.status = PaymentOrderStatus.FAILED;
     }
+
+    public void markAsRefunded() {
+        this.status = PaymentOrderStatus.REFUNDED;
+    }
 }

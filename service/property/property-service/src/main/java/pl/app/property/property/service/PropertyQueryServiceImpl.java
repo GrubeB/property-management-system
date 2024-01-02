@@ -1,18 +1,18 @@
 package pl.app.property.property.service;
 
-import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.app.property.property.dto.PropertyBaseDto;
+import pl.app.common.core.web.dto.BaseDto;
 import pl.app.property.property.dto.PropertyDto;
-import pl.app.property.property.model.PropertyEntity;
+import pl.app.property.property.mapper.PropertyMapper;
 import pl.app.property.property.persistence.PropertyRepository;
 
-import java.util.*;
-import java.util.function.Function;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,23 +21,12 @@ import java.util.function.Function;
 class PropertyQueryServiceImpl implements PropertyQueryService {
     private final PropertyRepository repository;
     private final PropertyRepository specificationRepository;
+    private final PropertyMapper mapper;
 
-    private final Map<String, Class<?>> dtoClasses = Map.of(
-            "PropertyBaseDto", PropertyBaseDto.class,
-            "PropertyDto", PropertyDto.class
-    );
-    public final Class<PropertyBaseDto> defaultDtoClass = PropertyBaseDto.class;
-
-    private final Map<AbstractMap.SimpleEntry<Class<?>, Class<?>>, Function<?, ?>> dtoMappers = new HashMap<>();
-    private final ModelMapper modelMapper;
-
-    @PostConstruct
-    void init() {
-        dtoMappers.put(new AbstractMap.SimpleEntry<>(PropertyEntity.class, PropertyBaseDto.class),
-                (PropertyEntity e) -> modelMapper.map(e, PropertyBaseDto.class));
-        dtoMappers.put(new AbstractMap.SimpleEntry<>(PropertyEntity.class, PropertyDto.class),
-                (PropertyEntity e) -> modelMapper.map(e, PropertyDto.class));
-    }
+    private final Map<String, Class<?>> supportedDtoClasses = new LinkedHashMap<>(){{
+        put("PropertyDto", PropertyDto.class);
+        put("BaseDto", BaseDto.class);
+    }};
 
     @Override
     public List<UUID> fetchIdAll() {

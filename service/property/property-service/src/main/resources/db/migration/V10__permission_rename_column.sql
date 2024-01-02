@@ -1,0 +1,1 @@
+ALTER TABLE t_permission RENAME COLUMN permission_level TO permission_domain_object_type;

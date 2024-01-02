@@ -57,21 +57,21 @@ class AmenityPersistenceAdapterImpl implements
 
     @Override
     public Amenity save(Amenity amenity) {
-        AmenityEntity amenityEntity = amenityMapper.map(amenity);
+        AmenityEntity amenityEntity = amenityMapper.mapToAmenityEntity(amenity);
         AmenityEntity savedAmenityMapper = amenityEntityRepository.save(amenityEntity);
-        return amenityMapper.map(savedAmenityMapper);
+        return amenityMapper.mapToAmenity(savedAmenityMapper);
     }
 
     @Override
     public OrganizationAmenities save(OrganizationAmenities organizationAmenities) {
-        Set<OrganizationAmenityEntity> collect = amenityMapper.map(organizationAmenities);
+        Set<OrganizationAmenityEntity> collect = amenityMapper.mapToOrganizationAmenityEntity(organizationAmenities);
         List<OrganizationAmenityEntity> organizationAmenityEntities = organizationAmenityEntityRepository.saveAll(collect);
         return amenityMapper.mapToOrganizationAmenities(organizationAmenities.getOrganizationId(), organizationAmenityEntities);
     }
 
     @Override
     public PropertyAmenities save(PropertyAmenities propertyAmenities) {
-        Set<PropertyAmenityEntity> collect = amenityMapper.map(propertyAmenities);
+        Set<PropertyAmenityEntity> collect = amenityMapper.mapToPropertyAmenityEntity(propertyAmenities);
         List<PropertyAmenityEntity> propertyAmenityEntities = propertyAmenityEntityRepository.saveAll(collect);
         return amenityMapper.mapToPropertyAmenities(propertyAmenities.getPropertyId(), propertyAmenityEntities);
     }
@@ -80,7 +80,7 @@ class AmenityPersistenceAdapterImpl implements
     @Transactional(readOnly = true)
     public List<Amenity> loadAllStandardAmenities() {
         List<AmenityEntity> allStandardAmenities = amenityEntityRepository.findByStandardTrue();
-        return allStandardAmenities.stream().map(amenityMapper::map).toList();
+        return allStandardAmenities.stream().map(amenityMapper::mapToAmenity).toList();
     }
 
 
@@ -100,6 +100,6 @@ class AmenityPersistenceAdapterImpl implements
     public Amenity loadAmenity(UUID amenityId) {
         AmenityEntity amenityEntity = amenityEntityRepository.findById(amenityId)
                 .orElseThrow(() -> AmenityException.NotFoundAmenityException.fromId(amenityId));
-        return amenityMapper.map(amenityEntity);
+        return amenityMapper.mapToAmenity(amenityEntity);
     }
 }

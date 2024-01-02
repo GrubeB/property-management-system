@@ -1,0 +1,2 @@
+ALTER TABLE t_guest_credit_card DROP CONSTRAINT FK_T_GUEST_CREDIT_CARD_ON_GUEST;
+DROP TABLE t_guest_credit_card;

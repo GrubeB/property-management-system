@@ -14,6 +14,8 @@ import pl.app.property.registration_folio.application.domain.model.RegistrationP
 import pl.app.property.registration_folio.application.domain.model.RegistrationPartyFolioCharge;
 import pl.app.property.registration_folio.application.domain.model.RegistrationPartyFolioPayment;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -43,6 +45,7 @@ public class RegistrationFolioMapper {
                 .partyId(domain.getPartyId())
                 .payments(domain.getPayments().stream().map(this::mapToPartyFolioPaymentEntity).collect(Collectors.toSet()))
                 .charges(domain.getCharges().stream().map(this::mapToPartyFolioChargeEntity).collect(Collectors.toSet()))
+                .globalPaymentIds(new LinkedHashSet<>(domain.getGlobalPaymentIds()))
                 .build();
         entity.getPayments().forEach(p -> p.setPartyFolio(entity));
         entity.getCharges().forEach(p -> p.setPartyFolio(entity));
@@ -52,6 +55,7 @@ public class RegistrationFolioMapper {
     private PartyFolioChargeEntity mapToPartyFolioChargeEntity(RegistrationPartyFolioCharge domain) {
         return PartyFolioChargeEntity.builder()
                 .chargeId(domain.getChargeId())
+                .objectId(domain.getObjectId())
                 .type(domain.getType())
                 .name(domain.getName())
                 .amount(domain.getAmount())
@@ -85,13 +89,15 @@ public class RegistrationFolioMapper {
                 entity.getPartyFolioId(),
                 entity.getPartyId(),
                 entity.getPayments().stream().map(this::mapToPartyFolioPayment).collect(Collectors.toList()),
-                entity.getCharges().stream().map(this::mapToPartyFolioCharge).collect(Collectors.toList())
+                entity.getCharges().stream().map(this::mapToPartyFolioCharge).collect(Collectors.toList()),
+                new ArrayList<>(entity.getGlobalPaymentIds())
         );
     }
 
     private RegistrationPartyFolioCharge mapToPartyFolioCharge(PartyFolioChargeEntity entity) {
         return new RegistrationPartyFolioCharge(
                 entity.getChargeId(),
+                entity.getObjectId(),
                 entity.getType(),
                 entity.getName(),
                 entity.getAmount(),

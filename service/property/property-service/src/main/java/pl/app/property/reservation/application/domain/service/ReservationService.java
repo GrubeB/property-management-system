@@ -38,7 +38,9 @@ class ReservationService implements
     @Override
     public UUID createReservation(CreateReservationCommand command) {
         final ReservationGuest mainGuest = new ReservationGuest(command.getMainGuestId());
-        final List<ReservationGuest> anotherGuests = command.getAnotherGuestIds().stream().map(ReservationGuest::new).collect(Collectors.toList());
+        final List<ReservationGuest> anotherGuests = command.getAnotherGuestIds().stream()
+                .map(ReservationGuest::new)
+                .collect(Collectors.toList());
         Reservation reservation = new Reservation(command.getPropertyId(), command.getReservationSource(), mainGuest, anotherGuests);
         addBookingsToReservation(reservation, command.getBookings());
         verifyAccommodationTypeAvailability(reservation);

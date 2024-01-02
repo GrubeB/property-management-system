@@ -17,6 +17,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 class ReservationFolioService implements
+        RefundReservationFolioUseCase,
         StartReservationPaymentProcessUseCase,
         FetchReservationFolioUseCase,
         IsReservationFolioPaidUseCase,
@@ -39,7 +40,7 @@ class ReservationFolioService implements
     @Override
     public UUID addCharge(AddChargeCommand command) {
         ReservationFolio reservationFolio = loadReservationFolioPort.loadRegistrationFolio(command.getReservationFolioId());
-        ReservationFolioCharge newCharge = reservationFolio.addCharge(command.getType(), command.getName(),
+        ReservationFolioCharge newCharge = reservationFolio.addCharge(command.getObjectId(), command.getType(), command.getName(),
                 command.getAmount(), command.getCurrent(), command.getShouldByPaidBeforeRegistration());
         saveReservationFolioPort.saveRegistrationFolio(reservationFolio);
         return newCharge.getChargeId();
@@ -78,6 +79,14 @@ class ReservationFolioService implements
         UUID paymentId = reservationPaymentPort.createPayment(reservationFolio.getPropertyId(), command.getReservationFolioId(),
                 "Reservation: " + reservationFolio.getReservationId(), command.getGuestId(), command.getAmount(), command.getCurrency());
         reservationMailPort.sendMail(paymentId, command.getGuestId(), reservationFolio.getPropertyId());
+        reservationFolio.addGlobalPaymentId(paymentId);
+        saveReservationFolioPort.saveRegistrationFolio(reservationFolio);
         return paymentId;
+    }
+
+    @Override
+    public void refund(RefundReservationFolioCommand command) {
+        ReservationFolio reservationFolio = loadReservationFolioPort.loadRegistrationFolio(command.getReservationFolioId());
+        reservationPaymentPort.refundPayment(reservationFolio.getGlobalPaymentIds());
     }
 }

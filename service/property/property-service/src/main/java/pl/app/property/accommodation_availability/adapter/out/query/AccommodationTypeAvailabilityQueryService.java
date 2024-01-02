@@ -7,6 +7,6 @@ import java.util.UUID;
 
 
 public interface AccommodationTypeAvailabilityQueryService extends
-        QueryService.Fetchable<UUID, AccommodationTypeAvailabilityEntity> {
+        QueryService.Full<UUID, AccommodationTypeAvailabilityEntity> {
     AccommodationTypeAvailabilityEntity fetchByAccommodationTypeId(UUID accommodationTypeId);
 }

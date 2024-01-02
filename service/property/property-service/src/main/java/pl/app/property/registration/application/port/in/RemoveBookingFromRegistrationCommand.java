@@ -13,5 +13,5 @@ import java.util.UUID;
 @AllArgsConstructor
 public class RemoveBookingFromRegistrationCommand implements Serializable {
     private UUID registrationId;
-    private List<UUID> accommodationTypeBookingIds;
+    private List<UUID> bookingIds;
 }

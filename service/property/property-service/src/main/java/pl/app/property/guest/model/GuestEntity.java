@@ -10,9 +10,7 @@ import pl.app.common.core.model.ParentEntity;
 import pl.app.property.property.model.PropertyEntity;
 
 import java.time.Instant;
-import java.util.LinkedHashSet;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -47,18 +45,20 @@ public class GuestEntity extends AbstractEntity<UUID> implements
     @JoinColumn(name = "address_id")
     private GuestAddressEntity address;
 
-    @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
-            mappedBy = "guest",
-            orphanRemoval = true)
-    @Builder.Default
-    private Set<CreditCardEntity> creditCards = new LinkedHashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "property_id", nullable = false)
     @ToString.Exclude
     @JsonIgnore
     private PropertyEntity property;
+
+    public void setAddress(GuestAddressEntity address) {
+        this.address = null;
+        if (address != null) {
+            address.setGuest(this);
+            this.address = address;
+        }
+    }
 
     @Override
     public UUID getId() {
@@ -68,13 +68,6 @@ public class GuestEntity extends AbstractEntity<UUID> implements
     @Override
     public PropertyEntity getParent() {
         return property;
-    }
-
-    public void setCreditCards(Set<CreditCardEntity> creditCards) {
-        this.creditCards.clear();
-        creditCards.stream()
-                .peek(ch -> ch.setGuest(this))
-                .forEach(this.creditCards::add);
     }
 
     @Override

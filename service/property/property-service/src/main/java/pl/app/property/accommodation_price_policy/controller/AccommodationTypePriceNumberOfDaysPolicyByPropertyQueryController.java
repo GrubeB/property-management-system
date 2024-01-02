@@ -16,12 +16,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Getter
 public class AccommodationTypePriceNumberOfDaysPolicyByPropertyQueryController implements
-        QueryController.FetchableWithFilter<UUID, AccommodationTypePriceNumberOfDaysPolicyEntity> {
+        QueryController.SimpleFetchableWithFilter.Full<UUID, AccommodationTypePriceNumberOfDaysPolicyEntity> {
     public static final String resourceName = "number-of-days-policies";
     public static final String resourcePath = "/api/v1/organizations/{organizationId}/properties/{propertyId}/accommodation-type-price-policies/" + resourceName;
 
     private final Map<String, String> parentFilterMap = Map.of(
-            "propertyId", "propertyId.property"
+            "propertyId", "property.propertyId"
     );
 
     public final AccommodationTypePriceNumberOfDaysPolicyQueryService service;

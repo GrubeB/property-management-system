@@ -6,5 +6,6 @@ import pl.app.property.reservation.adapter.out.persistence.model.ReservationEnti
 import java.util.UUID;
 
 
-public interface ReservationQueryService extends QueryService.Fetchable<UUID, ReservationEntity> {
+public interface ReservationQueryService extends
+        QueryService.Full<UUID, ReservationEntity> {
 }

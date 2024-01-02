@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AddChargeCommand implements Serializable {
     private UUID reservationFolioId;
-
+    private UUID objectId;
     private ReservationFolioChargeType type;
     private String name;
     private BigDecimal amount;

@@ -73,6 +73,16 @@ public interface RegistrationException {
         }
     }
 
+    class RegistrationFolioWrongStatedException extends InvalidStateException {
+        public RegistrationFolioWrongStatedException() {
+            super("registration folio has wrong state");
+        }
+
+        public RegistrationFolioWrongStatedException(String message) {
+            super(message);
+        }
+    }
+
     class BookingWrongStatedException extends InvalidStateException {
         public BookingWrongStatedException() {
             super("booking has wrong state");

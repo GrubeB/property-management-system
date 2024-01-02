@@ -3,21 +3,20 @@ package pl.app.property.user.application.domain.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.app.common.shared.authorization.PermissionLevel;
-import pl.app.common.shared.authorization.PermissionName;
-import pl.app.property.user.application.domain.model.Permission;
 import pl.app.property.user.application.domain.model.User;
-import pl.app.property.user.application.domain.model.UserOrganization;
 import pl.app.property.user.application.port.in.*;
 import pl.app.property.user.application.port.out.LoadUserPort;
 import pl.app.property.user.application.port.out.SaveUserPort;
 
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class UserService implements
+        RemovePropertyFromUserUseCase,
+        RemoveOrganizationFromUserUseCase,
+        AddOrganizationToUserUseCase,
+        AddPropertyToUserUseCase,
         AddPrivilegeUseCase,
         RemovePrivilegeUseCase,
         FetchUserUseCase,
@@ -31,10 +30,6 @@ public class UserService implements
     public UUID createUser(CreateUserCommand command) {
         String encodedPassword = passwordEncoder.encode(command.getPassword());
         User user = new User(command.getEmail(), encodedPassword);
-        this.addOrganizationToUser(user, command.getOrganizationId());
-        command.getPrivileges().forEach(p -> {
-            this.addPrivilege(user, p.getPermissionName(), p.getPermissionLevel(), p.getDomainObjectId());
-        });
         return saveUserPort.saveUser(user);
     }
 
@@ -46,35 +41,42 @@ public class UserService implements
     @Override
     public void addPrivilege(AddPrivilegeCommand command) {
         User user = loadUserPort.loadUser(command.getUserId());
-        command.getPrivileges().forEach(p ->
-                this.addPrivilege(user, p.getPermissionName(), p.getPermissionLevel(), p.getDomainObjectId())
-        );
+        command.getPrivileges().forEach(p -> user.addPrivilege(p.getPermissionName(), p.getPermissionObjectType(), p.getDomainObjectId()));
         saveUserPort.saveUser(user);
     }
 
     @Override
     public void removePrivilege(RemovePrivilegeCommand command) {
         User user = loadUserPort.loadUser(command.getUserId());
-        command.getPrivileges().forEach(p ->
-                this.removePrivilege(user, p.getPermissionName(), p.getPermissionLevel(), p.getDomainObjectId())
-        );
+        command.getPrivileges().forEach(p -> user.removePrivilege(p.getPermissionName(), p.getPermissionObjectType(), p.getDomainObjectId()));
         saveUserPort.saveUser(user);
     }
 
-    private void addPrivilege(User user, String permissionName, String permissionLevel, UUID domainObjectId) {
-        Permission permission = new Permission(PermissionName.valueOf(permissionName), PermissionLevel.valueOf(permissionLevel));
-        user.addPrivilege(permission, domainObjectId);
+    @Override
+    public void addOrganizationToUser(AddOrganizationToUserCommand command) {
+        User user = loadUserPort.loadUser(command.getUserId());
+        user.addOrganization(command.getOrganizationId());
+        saveUserPort.saveUser(user);
     }
 
-    private void removePrivilege(User user, String permissionName, String permissionLevel, UUID domainObjectId) {
-        Permission permission = new Permission(PermissionName.valueOf(permissionName), PermissionLevel.valueOf(permissionLevel));
-        user.removePrivilege(permission, domainObjectId);
+    @Override
+    public void addPropertyToUser(AddPropertyToUserCommand command) {
+        User user = loadUserPort.loadUser(command.getUserId());
+        user.addProperty(command.getPropertyId());
+        saveUserPort.saveUser(user);
     }
 
-    private void addOrganizationToUser(User user, UUID organizationId) {
-        if (Objects.nonNull(organizationId)) {
-            UserOrganization organization = new UserOrganization(organizationId);
-            user.addOrganization(organization);
-        }
+    @Override
+    public void removeOrganizationFromUser(RemoveOrganizationFromUserCommand command) {
+        User user = loadUserPort.loadUser(command.getUserId());
+        user.removeOrganization(command.getOrganizationId());
+        saveUserPort.saveUser(user);
+    }
+
+    @Override
+    public void removePropertyFromUser(RemovePropertyFromUserCommand command) {
+        User user = loadUserPort.loadUser(command.getUserId());
+        user.removeProperty(command.getPropertyId());
+        saveUserPort.saveUser(user);
     }
 }

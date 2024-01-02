@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Getter
 public class OrganizationQueryController implements
-        QueryController.Fetchable<UUID, OrganizationEntity> {
+        QueryController.DtoFetchable.Full<UUID, OrganizationEntity> {
     public static final String resourceName = "organizations";
     public static final String resourcePath = "/api/v1/" + resourceName;
 

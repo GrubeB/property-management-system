@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -18,7 +18,7 @@ public class RegistrationBooking {
     private UUID accommodationTypeId;
     private List<RegistrationGuest> guests;
     private UUID accommodationTypeReservationId;
-    private List<UUID> chargeIds;
+    private Boolean isChargeAdded;
 
 
     public RegistrationBooking(LocalDate start, LocalDate end, UUID accommodationTypeId, List<RegistrationGuest> guests) {
@@ -28,36 +28,40 @@ public class RegistrationBooking {
         this.accommodationTypeId = accommodationTypeId;
         this.guests = guests;
         this.accommodationTypeReservationId = null;
-        this.chargeIds = new ArrayList<>();
+        this.isChargeAdded = false;
     }
 
-    public RegistrationBooking(LocalDate start, LocalDate end, UUID accommodationTypeId, UUID accommodationTypeReservationId, List<UUID> chargeIds, List<RegistrationGuest> guests) {
+    public RegistrationBooking(LocalDate start, LocalDate end, UUID accommodationTypeId, UUID accommodationTypeReservationId, List<RegistrationGuest> guests) {
         this.bookingId = UUID.randomUUID();
         this.start = start;
         this.end = end;
         this.accommodationTypeId = accommodationTypeId;
         this.guests = guests;
         this.accommodationTypeReservationId = accommodationTypeReservationId;
-        this.chargeIds = chargeIds;
+        this.isChargeAdded = false;
     }
 
     public void addGuest(RegistrationGuest guest) {
         this.guests.add(guest);
     }
 
-    public void removeGuest(RegistrationGuest guest) {
-        this.guests.remove(guest);
+    public void removeGuest(RegistrationGuest guestToRemove) {
+        this.guests.removeIf(guest -> Objects.equals(guest.getGuestId(), guestToRemove.getGuestId()));
+    }
+
+    public boolean containsGuest(RegistrationGuest targetGuest) {
+        return this.guests.stream().anyMatch(guest -> Objects.equals(guest.getGuestId(), targetGuest.getGuestId()));
     }
 
     public void setAccommodationTypeReservationId(UUID accommodationTypeReservationId) {
         this.accommodationTypeReservationId = accommodationTypeReservationId;
     }
 
-    public void addCharge(UUID chargeId) {
-        this.chargeIds.add(chargeId);
+    public boolean isReserved() {
+        return this.accommodationTypeReservationId != null;
     }
 
-    public void removeAllCharge() {
-        this.chargeIds.clear();
+    public void setChargeAdded(Boolean isChargeAdded) {
+        this.isChargeAdded = isChargeAdded;
     }
 }

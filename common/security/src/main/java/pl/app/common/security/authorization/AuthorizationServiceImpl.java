@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import pl.app.common.security.authentication.AuthenticationService;
 import pl.app.common.security.authorozation_method_security.DomainObjectGrandAuthority;
-import pl.app.common.shared.authorization.PermissionLevel;
+import pl.app.common.shared.authorization.PermissionDomainObjectType;
 
 import java.io.Serializable;
 
@@ -35,7 +35,7 @@ class AuthorizationServiceImpl implements AuthorizationService {
                         domainObjectGrandAuthority.getPermissionName().equals(permissionName) &&
                         (domainObjectGrandAuthority.getDomainObjectId() == null ||
                                 domainObjectGrandAuthority.getDomainObjectId().isBlank()) &&
-                        domainObjectGrandAuthority.getPermissionLevel().equals(permissionLevel));
+                        domainObjectGrandAuthority.getDomainObjectType().equals(permissionLevel));
     }
 
     @Override
@@ -50,39 +50,39 @@ class AuthorizationServiceImpl implements AuthorizationService {
                 grantedAuthority instanceof DomainObjectGrandAuthority domainObjectGrandAuthority &&
                         domainObjectGrandAuthority.getPermissionName().equals(permissionName) &&
                         domainObjectGrandAuthority.getDomainObjectId().equals(targetId) &&
-                        domainObjectGrandAuthority.getPermissionLevel().equals(permissionLevel));
+                        domainObjectGrandAuthority.getDomainObjectType().equals(permissionLevel));
     }
 
     @Override
     public boolean hasRootPrivilege(String permissionName) {
         Authentication currentAuthentication = authenticationService.getCurrentAuthentication();
-        return hasPrivilege(currentAuthentication, PermissionLevel.ROOT.name(), permissionName);
+        return hasPrivilege(currentAuthentication, PermissionDomainObjectType.ROOT.name(), permissionName);
     }
 
     @Override
     public boolean hasRootPrivilege(Authentication authentication, String permissionName) {
-        return hasPrivilege(authentication, PermissionLevel.ROOT.name(), permissionName);
+        return hasPrivilege(authentication, PermissionDomainObjectType.ROOT.name(), permissionName);
     }
 
     @Override
     public boolean hasOrganizationPrivilege(Serializable targetId, String permissionName) {
         Authentication currentAuthentication = authenticationService.getCurrentAuthentication();
-        return hasPrivilege(currentAuthentication, targetId, PermissionLevel.ORGANIZATION.name(), permissionName);
+        return hasPrivilege(currentAuthentication, targetId, PermissionDomainObjectType.ORGANIZATION.name(), permissionName);
     }
 
     @Override
     public boolean hasOrganizationPrivilege(Authentication authentication, Serializable targetId, String permissionName) {
-        return hasPrivilege(authentication, targetId, PermissionLevel.ORGANIZATION.name(), permissionName);
+        return hasPrivilege(authentication, targetId, PermissionDomainObjectType.ORGANIZATION.name(), permissionName);
     }
 
     @Override
     public boolean hasPropertyPrivilege(Serializable targetId, String permissionName) {
         Authentication currentAuthentication = authenticationService.getCurrentAuthentication();
-        return hasPrivilege(currentAuthentication, targetId, PermissionLevel.PROPERTY.name(), permissionName);
+        return hasPrivilege(currentAuthentication, targetId, PermissionDomainObjectType.PROPERTY.name(), permissionName);
     }
 
     @Override
     public boolean hasPropertyPrivilege(Authentication authentication, Serializable targetId, String permissionName) {
-        return hasPrivilege(authentication, targetId, PermissionLevel.PROPERTY.name(), permissionName);
+        return hasPrivilege(authentication, targetId, PermissionDomainObjectType.PROPERTY.name(), permissionName);
     }
 }

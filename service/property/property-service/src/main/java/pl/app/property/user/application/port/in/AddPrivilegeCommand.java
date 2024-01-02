@@ -20,7 +20,7 @@ public class AddPrivilegeCommand implements Serializable {
     @AllArgsConstructor
     public static class Privilege {
         private UUID domainObjectId;
-        private String permissionLevel;
+        private String permissionObjectType;
         private String permissionName;
     }
 }

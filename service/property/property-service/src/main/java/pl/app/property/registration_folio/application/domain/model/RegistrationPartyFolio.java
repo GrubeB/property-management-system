@@ -17,23 +17,25 @@ public class RegistrationPartyFolio {
     private UUID partyId;
     private List<RegistrationPartyFolioPayment> payments;
     private List<RegistrationPartyFolioCharge> charges;
+    private List<UUID> globalPaymentIds;
 
     public RegistrationPartyFolio(UUID partyId) {
         this.partyFolioId = UUID.randomUUID();
         this.partyId = partyId;
         this.payments = new ArrayList<>();
         this.charges = new ArrayList<>();
+        this.globalPaymentIds = new ArrayList<>();
     }
 
     // CHARGE
-    public RegistrationPartyFolioCharge addChargeToParty(RegistrationPartyFolioChargeType type, String name, BigDecimal amount, String current) {
-        RegistrationPartyFolioCharge newCharge = new RegistrationPartyFolioCharge(type, name, amount, current);
+    public RegistrationPartyFolioCharge addChargeToParty(UUID objectId, RegistrationPartyFolioChargeType type, String name, BigDecimal amount, String current) {
+        RegistrationPartyFolioCharge newCharge = new RegistrationPartyFolioCharge(objectId, type, name, amount, current);
         charges.add(newCharge);
         return newCharge;
     }
 
-    public RegistrationPartyFolioCharge addChargeToParty(RegistrationPartyFolioChargeType type, String name, BigDecimal amount, String current, Instant date) {
-        RegistrationPartyFolioCharge newCharge = new RegistrationPartyFolioCharge(type, name, amount, current, date);
+    public RegistrationPartyFolioCharge addChargeToParty(UUID objectId, RegistrationPartyFolioChargeType type, String name, BigDecimal amount, String current, Instant date) {
+        RegistrationPartyFolioCharge newCharge = new RegistrationPartyFolioCharge(objectId, type, name, amount, current, date);
         charges.add(newCharge);
         return newCharge;
     }
@@ -77,4 +79,11 @@ public class RegistrationPartyFolio {
     }
 
 
+    public boolean isEmpty() {
+        return this.charges.isEmpty() && this.payments.isEmpty();
+    }
+
+    public void addGlobalPaymentId(UUID paymentId) {
+        this.globalPaymentIds.add(paymentId);
+    }
 }

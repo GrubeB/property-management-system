@@ -5,10 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.app.common.core.web.dto.BaseDto;
+import pl.app.property.reservation_folio.adapter.out.query.dto.ReservationFolioDto;
 import pl.app.property.reservation_payment_policy.adapter.out.persistence.repositroy.ReservationPaymentPolicyRepository;
 import pl.app.property.reservation_payment_policy.adapter.out.query.dto.ReservationPaymentPolicyDto;
 import pl.app.property.reservation_payment_policy.adapter.out.query.mapper.ReservationPaymentPolicyQueryMapper;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Service
@@ -20,8 +22,8 @@ class ReservationPaymentPolicyQueryServiceImpl implements ReservationPaymentPoli
     private final ReservationPaymentPolicyRepository specificationRepository;
     private final ReservationPaymentPolicyQueryMapper mapper;
 
-    private final Map<String, Class<?>> supportedDtoClasses = Map.of(
-            "ReservationPaymentPolicyDto", ReservationPaymentPolicyDto.class,
-            "BaseDto", BaseDto.class
-    );
+    private final Map<String, Class<?>> supportedDtoClasses = new LinkedHashMap<>() {{
+        put("ReservationPaymentPolicyDto", ReservationPaymentPolicyDto.class);
+        put("BaseDto", BaseDto.class);
+    }};
 }

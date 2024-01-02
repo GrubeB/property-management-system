@@ -42,7 +42,7 @@ public class HttpRequestConfig {
         return c -> c
                 // AUTH
                 .requestMatchers(AuthenticationController.controllerPath).permitAll()
-
+                .requestMatchers(all).permitAll()
                 // USER
                 .requestMatchers(and(or(GET), or(UserQueryController.resourcePath, UserQueryController.resourcePath + byId))).access(
                         hasRootPermission(USER_READ)

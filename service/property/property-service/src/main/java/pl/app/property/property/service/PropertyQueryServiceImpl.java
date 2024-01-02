@@ -9,6 +9,7 @@ import pl.app.property.property.dto.PropertyDto;
 import pl.app.property.property.mapper.PropertyMapper;
 import pl.app.property.property.persistence.PropertyRepository;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -22,10 +23,10 @@ class PropertyQueryServiceImpl implements PropertyQueryService {
     private final PropertyRepository specificationRepository;
     private final PropertyMapper mapper;
 
-    private final Map<String, Class<?>> supportedDtoClasses = Map.of(
-            "PropertyDto", PropertyDto.class,
-            "BaseDto", BaseDto.class
-    );
+    private final Map<String, Class<?>> supportedDtoClasses = new LinkedHashMap<>(){{
+        put("PropertyDto", PropertyDto.class);
+        put("BaseDto", BaseDto.class);
+    }};
 
     @Override
     public List<UUID> fetchIdAll() {

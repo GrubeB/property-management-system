@@ -21,7 +21,7 @@ public class AccommodationTypePriceNumberOfDaysPolicyByPropertyQueryController i
     public static final String resourcePath = "/api/v1/organizations/{organizationId}/properties/{propertyId}/accommodation-type-price-policies/" + resourceName;
 
     private final Map<String, String> parentFilterMap = Map.of(
-            "propertyId", "propertyId.property"
+            "propertyId", "property.propertyId"
     );
 
     public final AccommodationTypePriceNumberOfDaysPolicyQueryService service;

@@ -5,10 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.app.common.core.web.dto.BaseDto;
+import pl.app.property.registration.adapter.out.query.dto.RegistrationDto;
 import pl.app.property.registration_folio.adapter.out.persistence.repository.RegistrationFolioRepository;
 import pl.app.property.registration_folio.adapter.out.query.dto.RegistrationFolioDto;
 import pl.app.property.registration_folio.adapter.out.query.mapper.RegistrationFolioQueryMapper;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Service
@@ -21,8 +23,8 @@ class RegistrationFolioQueryServiceImpl implements
     private final RegistrationFolioRepository specificationRepository;
     private final RegistrationFolioQueryMapper mapper;
 
-    private final Map<String, Class<?>> supportedDtoClasses = Map.of(
-            "RegistrationFolioDto", RegistrationFolioDto.class,
-            "BaseDto", BaseDto.class
-    );
+    private final Map<String, Class<?>> supportedDtoClasses = new LinkedHashMap<>() {{
+        put("RegistrationFolioDto", RegistrationFolioDto.class);
+        put("BaseDto", BaseDto.class);
+    }};
 }
